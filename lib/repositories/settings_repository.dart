@@ -5,6 +5,7 @@ import 'package:flutter_todo/sevices/locator.dart';
 import 'package:flutter_todo/sevices/services.dart';
 
 class SettingsRepository {
+  const SettingsRepository();
   Settings get settings {
     var value =
         locator<StorageDeviceService>().get(StorageDeviceService.settingsKey);

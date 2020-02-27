@@ -18,5 +18,5 @@ class SettingsUpdateSettingsEvent extends SettingsEvent {
 
   @override
   String toString() =>
-      "SettingsUpdateSettingsEvent {settings: ${settings.toJson()}";
+      "SettingsUpdateSettingsEvent {settings: ${settings.toJson()}}";
 }

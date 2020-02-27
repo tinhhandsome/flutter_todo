@@ -5,12 +5,14 @@ import 'package:flutter_todo/repositories/repositories.dart';
 import 'bloc.dart';
 
 class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
-  final SettingsRepository _repository = SettingsRepository();
+  final SettingsRepository repository;
 
-  Settings get settings => _repository.settings;
+  Settings get settings => repository.settings;
+
+  SettingsBloc({this.repository = const SettingsRepository()});
 
   @override
-  SettingsState get initialState => InitialSettingsState();
+  SettingsState get initialState => SettingsInitialState();
 
   @override
   Stream<SettingsState> mapEventToState(
@@ -26,7 +28,7 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
       SettingsUpdateSettingsEvent event) async* {
     yield SettingsLoadingState();
     try {
-      await _repository.updateSetting(event.settings);
+      await repository.updateSetting(event.settings);
       yield SettingsUpdatedSettingsState(event.settings);
     } catch (exception) {
       yield SettingsErrorState(exception.toString());

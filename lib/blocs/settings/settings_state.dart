@@ -10,7 +10,7 @@ abstract class SettingsState extends Equatable {
   List<Object> get props => [];
 }
 
-class InitialSettingsState extends SettingsState {}
+class SettingsInitialState extends SettingsState {}
 
 class SettingsLoadingState extends SettingsState {}
 
