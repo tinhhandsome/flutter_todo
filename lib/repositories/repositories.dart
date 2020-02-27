@@ -1,6 +1,2 @@
-import 'package:flutter_todo/dao/todo.dart';
-
-class TodoRepository {
-  final TodoDao todoDao = TodoDao();
-
-}
+export 'settings_repository.dart';
+export 'todo_repository.dart';
