@@ -35,7 +35,6 @@ class DatabaseProvider {
   Future initDB(Database database, int version) async {
     await database.execute("CREATE TABLE IF NOT EXISTS $todoTable ("
         "id INTEGER PRIMARY KEY, "
-        "parent_id INTEGER, "
         "title TEXT, "
         "done INTEGER, "
         "description TEXT, "

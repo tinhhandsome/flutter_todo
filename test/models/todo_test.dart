@@ -16,7 +16,6 @@ void main() {
         "description": "Bài tập về nhà",
         "done": false,
         "expired": "",
-        "parent_id": null,
       });
     });
     test("fromJson", () {
@@ -26,14 +25,13 @@ void main() {
         "title": "Bài tập",
         "done": false,
         "expired": "",
-        "parent_id": null,
       };
       expect(Todo.fromJson(json).toJson(), todo.toJson());
     });
     // If add entry, not test => failed
     test("size of key = 5", () {
       Todo todo = Todo();
-      expect(todo.toJson().keys.length, 6);
+      expect(todo.toJson().keys.length, 5);
     });
   });
 }

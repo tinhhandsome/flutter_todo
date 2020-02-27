@@ -135,46 +135,5 @@ void main() {
         }
       }
     });
-
-    test("should insert, add child and query", () async {
-      Todo todo = Todo(
-        title: "test",
-        expired: "2020-2-16",
-        done: false,
-        description: "test game",
-      );
-      // Create
-      {
-        try {
-          todo.id = await dao.createTodo(todo: todo);
-          expect(todo.id, isNotNull);
-
-          var todoQuery = await dao.getTodoById(id: todo.id);
-
-          expect(todoQuery.title, equals(todo.title));
-          expect(todoQuery.expired, equals(todo.expired));
-          expect(todoQuery.done, equals(todo.done));
-          expect(todoQuery.description, equals(todo.description));
-        } catch (exception) {
-          expect(false, true);
-        }
-      }
-
-      // Delete
-      {
-        try {
-          var affected = await dao.deleteTodo(id: todo.id);
-          expect(affected, 1);
-
-          var todoQuery = await dao.getTodoById(id: todo.id);
-          expect(todoQuery, isNull);
-        } catch (exception) {
-          expect(false, true);
-        }
-      }
-    });
-
-
-
   });
 }
