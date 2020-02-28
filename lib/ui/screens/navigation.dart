@@ -18,7 +18,7 @@ class _NavigationScreenState extends State<NavigationScreen> {
   final TabsBloc _tabsBloc = TabsBloc();
   final PageController _pageController = PageController();
   DateTime currentBackPressTime;
-
+  final ScrollController _controller = ScrollController();
   @override
   void initState() {
     super.initState();
@@ -42,21 +42,39 @@ class _NavigationScreenState extends State<NavigationScreen> {
       onWillPop: _onWillPop,
       child: Scaffold(
         drawer: CustomDrawer(),
-        appBar: AppBar(
-          elevation: 0,
-          backgroundColor: Theme.of(context).scaffoldBackgroundColor,
-          iconTheme: IconThemeData(color: Theme.of(context).iconTheme.color),
-          textTheme: TextTheme(title: Theme.of(context).textTheme.title),
-          title: const Text("My Tasks"),
+        body: NestedScrollView(
+          headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
+            // These are the slivers that show up in the "outer" scroll view.
+            return <Widget>[
+              SliverOverlapAbsorber(
+                handle:
+                    NestedScrollView.sliverOverlapAbsorberHandleFor(context),
+                child: SliverAppBar(
+                  elevation: 0,
+                  pinned: false,
+                  titleSpacing: 100,
+                  backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+                  iconTheme:
+                      IconThemeData(color: Theme.of(context).iconTheme.color),
+                  title: Text(
+                    "My Tasks",
+                    style: Theme.of(context).textTheme.title,
+                  ),
+                ),
+              ),
+            ];
+          },
+          body:
+              BlocBuilder<TasksBloc, TasksState>(builder: (context, taskState) {
+            var pages =
+                _buildPages(BlocProvider.of<TasksBloc>(context).mapTodo);
+            return PageView(
+              onPageChanged: _selectPage,
+              controller: _pageController,
+              children: pages,
+            );
+          }),
         ),
-        body: BlocBuilder<TasksBloc, TasksState>(builder: (context, taskState) {
-          var pages = _buildPages(BlocProvider.of<TasksBloc>(context).mapTodo);
-          return PageView(
-            onPageChanged: _selectPage,
-            controller: _pageController,
-            children: pages,
-          );
-        }),
         floatingActionButton: _buildAddButton(),
         bottomNavigationBar: _buildBottomNavigationBar(),
       ),
@@ -73,6 +91,7 @@ class _NavigationScreenState extends State<NavigationScreen> {
         );
       }
       return ListTodo(
+        controller: _controller,
         listTodo: mapTodo[key],
         onRefresh: onRefresh,
       );

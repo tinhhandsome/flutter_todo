@@ -11,8 +11,10 @@ import 'todo_item.dart';
 class ListTodo extends StatefulWidget {
   final List<Todo> listTodo;
   final RefreshCallback onRefresh;
+  final ScrollController controller;
 
-  const ListTodo({@required this.onRefresh, Key key, this.listTodo})
+  const ListTodo(
+      {@required this.onRefresh, Key key, this.listTodo, this.controller})
       : super(key: key);
 
   @override
@@ -22,31 +24,30 @@ class ListTodo extends StatefulWidget {
 class _ListTodoState extends State<ListTodo> {
   @override
   Widget build(BuildContext context) {
-    return RefreshIndicator(
-      child: CustomScrollView(
-        slivers: <Widget>[
-          SliverList(
-            delegate: SliverChildBuilderDelegate(
-              (context, index) {
-                var todo = widget.listTodo[index];
-                return TodoItem(
-                  todo: todo,
-                  onChanged: (todo) {
-                    BlocProvider.of<TodoBloc>(context)
-                        .add(TodoUpdateEvent(todo));
-                  },
-                  onPressed: () {
-                    locator<NavigationService>()
-                        .push(TodoDetailScreen.routeName, arguments: todo);
-                  },
-                );
-              },
-              childCount: widget.listTodo.length,
-            ),
+    return CustomScrollView(
+      slivers: <Widget>[
+        SliverOverlapInjector(
+          handle: NestedScrollView.sliverOverlapAbsorberHandleFor(context),
+        ),
+        SliverList(
+          delegate: SliverChildBuilderDelegate(
+            (context, index) {
+              var todo = widget.listTodo[index];
+              return TodoItem(
+                todo: todo,
+                onChanged: (todo) {
+                  BlocProvider.of<TodoBloc>(context).add(TodoUpdateEvent(todo));
+                },
+                onPressed: () {
+                  locator<NavigationService>()
+                      .push(TodoDetailScreen.routeName, arguments: todo);
+                },
+              );
+            },
+            childCount: widget.listTodo.length,
           ),
-        ],
-      ),
-      onRefresh: widget.onRefresh,
+        ),
+      ],
     );
   }
 }
