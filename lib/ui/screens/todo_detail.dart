@@ -144,7 +144,7 @@ class _TodoDetailScreenState extends State<TodoDetailScreen> {
                                     Expanded(
                                         child: Text(time.isNotEmpty
                                             ? time
-                                            : "Add date")),
+                                            : "Add time")),
                                     time.isNotEmpty && !todo.done
                                         ? IconButton(
                                             icon: Icon(Icons.clear),
