@@ -43,11 +43,14 @@ class _TodoCustomListState extends State<TodoCustomList> {
                       arguments: widget.listInCompletedTodo[index]);
                 },
               ),
-              childCount: widget.listInCompletedTodo?.length,
+              childCount: widget.listInCompletedTodo == null
+                  ? 0
+                  : widget.listInCompletedTodo.length,
             ),
           ),
           SliverStickyHeaderBuilder(
-            builder: (context, state) => widget.listCompletedTodo.isEmpty
+            builder: (context, state) => widget.listCompletedTodo == null ||
+                    widget.listCompletedTodo.isEmpty
                 ? Container()
                 : Column(
                     mainAxisSize: MainAxisSize.min,
@@ -83,7 +86,9 @@ class _TodoCustomListState extends State<TodoCustomList> {
                         arguments: widget.listCompletedTodo[index]);
                   },
                 ),
-                childCount: widget.listCompletedTodo.length,
+                childCount: widget.listCompletedTodo == null
+                    ? 0
+                    : widget.listCompletedTodo?.length,
               ),
             ),
           ),
