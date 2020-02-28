@@ -30,8 +30,7 @@ void main() {
         'emits [TasksLoadingState(), TasksLoadedAllTodoState]'
         'when successful',
         build: () async {
-          when(todoRepository.getAll())
-              .thenAnswer((_) async => [completed, inCompleted]);
+          when(todoRepository.getAll()).thenAnswer((_) async => []);
 
           when(todoRepository.getAllTodoCompleted())
               .thenAnswer((_) async => [completed]);
@@ -44,7 +43,7 @@ void main() {
         expect: [
           TasksLoadingState(),
           TasksLoadedAllTodoState({
-            AppTabs.all: [completed, inCompleted],
+            AppTabs.all: [],
             AppTabs.completed: [completed],
             AppTabs.inCompleted: [inCompleted],
           }),
