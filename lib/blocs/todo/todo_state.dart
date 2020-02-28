@@ -64,15 +64,3 @@ class TodoErrorState extends TodoState {
   @override
   String toString() => "TodoErrorState {message: $message}";
 }
-
-class TodoLoadedAllState extends TodoState {
-  final Map<AppTabs, List<Todo>> mapTodo;
-
-  const TodoLoadedAllState(this.mapTodo);
-
-  @override
-  List<Object> get props => [mapTodo];
-
-  @override
-  String toString() => "TodoLoadedAllState {mapTodo: $mapTodo}";
-}

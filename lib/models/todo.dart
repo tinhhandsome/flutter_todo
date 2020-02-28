@@ -37,7 +37,7 @@ class Todo {
     final Map<String, dynamic> data = {};
     data['id'] = id;
     data['title'] = title;
-    data['done'] = done ? 1 : 0;
+    data['done'] = done == null ? 0 : done ? 1 : 0;
     data['description'] = description;
     data['expired'] = expired;
     return data;

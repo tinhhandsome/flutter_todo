@@ -78,34 +78,5 @@ void main() {
       );
     }
 
-    {
-      Todo completed = Todo(id: 1, done: true, title: "compeleted");
-      Todo inCompleted = Todo(id: 1, done: false, title: "inCompeleted");
-
-      blocTest<TodoBloc, TodoEvent, TodoState>(
-        'emits [TodoLoadingState(), TodoAllLoadedState]'
-        'when successful',
-        build: () async {
-          when(todoRepository.getAll())
-              .thenAnswer((_) async => [completed, inCompleted]);
-
-          when(todoRepository.getAllTodoCompleted())
-              .thenAnswer((_) async => [completed]);
-
-          when(todoRepository.getAllTodoInCompleted())
-              .thenAnswer((_) async => [inCompleted]);
-          return todoBloc;
-        },
-        act: (bloc) async => todoBloc.add(TodoLoadAllEvent()),
-        expect: [
-          TodoLoadingState(),
-          TodoLoadedAllState({
-            AppTabs.all: [completed, inCompleted],
-            AppTabs.completed: [completed],
-            AppTabs.inCompleted: [inCompleted],
-          }),
-        ],
-      );
-    }
   });
 }

@@ -1,18 +1,10 @@
 import 'dart:async';
 import 'package:bloc/bloc.dart';
-import 'package:flutter_todo/models/models.dart';
 import 'package:flutter_todo/repositories/repositories.dart';
 import './bloc.dart';
 
 class TodoBloc extends Bloc<TodoEvent, TodoState> {
   final TodoRepository todoRepository;
-  final Map<AppTabs, List<Todo>> mapTodo = {};
-
-  final Map<AppTabs, String> displayName = {
-    AppTabs.all: "All",
-    AppTabs.completed: "Completed",
-    AppTabs.inCompleted: "InCompleted",
-  };
 
   TodoBloc({this.todoRepository = const TodoRepository()});
 
@@ -33,10 +25,6 @@ class TodoBloc extends Bloc<TodoEvent, TodoState> {
     }
     if (event is TodoDeleteEvent) {
       yield* _handleDeleteTodoEvent(event);
-      return;
-    }
-    if (event is TodoLoadAllEvent) {
-      yield* _handleLoadAllTodoEvent(event);
       return;
     }
   }
@@ -66,19 +54,6 @@ class TodoBloc extends Bloc<TodoEvent, TodoState> {
     try {
       var success = await todoRepository.deleteTodo(todo: event.todo);
       yield TodoDeletedState(success);
-    } catch (exception) {
-      yield TodoErrorState(exception.toString());
-    }
-  }
-
-  Stream<TodoState> _handleLoadAllTodoEvent(TodoLoadAllEvent event) async* {
-    yield TodoLoadingState();
-    try {
-      mapTodo[AppTabs.all] = await todoRepository.getAll();
-      mapTodo[AppTabs.completed] = await todoRepository.getAllTodoCompleted();
-      mapTodo[AppTabs.inCompleted] =
-          await todoRepository.getAllTodoInCompleted();
-      yield TodoLoadedAllState(mapTodo);
     } catch (exception) {
       yield TodoErrorState(exception.toString());
     }

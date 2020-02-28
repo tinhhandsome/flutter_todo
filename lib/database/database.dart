@@ -8,7 +8,7 @@ class DatabaseProvider {
   Database _database;
   Database get database => _database;
 
-  Future boot({String path}) async {
+  Future boot({String path = ""}) async {
     if (_database != null) {
       return;
     }

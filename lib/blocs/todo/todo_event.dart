@@ -44,11 +44,3 @@ class TodoDeleteEvent extends TodoEvent {
   @override
   String toString() => "TodoDeleteEvent {todo: ${todo.toJson()}}";
 }
-
-class TodoLoadAllEvent extends TodoEvent {
-  @override
-  List<Object> get props => [];
-
-  @override
-  String toString() => "TodoLoadAllEvent";
-}
