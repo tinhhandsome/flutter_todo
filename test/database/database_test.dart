@@ -23,7 +23,7 @@ void main() {
       final String databasePath = await getDatabasesPath();
       await getIt<DatabaseProvider>()
           .boot(path: path.join(databasePath, testDBPath));
-      dao = TodoDao();
+      dao = const TodoDao();
     });
 
     // Delete the database so every test run starts with a fresh database

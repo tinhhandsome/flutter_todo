@@ -24,6 +24,8 @@ class TodoApp extends StatelessWidget {
           title: "Todo",
           darkTheme: Themes.getTheme(ThemeMode.dark),
           theme: Themes.getTheme(ThemeMode.light),
+          themeMode: ThemeMode.values[
+              BlocProvider.of<SettingsBloc>(context).settings.themeMode],
         );
       }),
     );
