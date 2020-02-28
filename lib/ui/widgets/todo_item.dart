@@ -4,12 +4,20 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_todo/blocs/todo/todo_bloc.dart';
 import 'package:flutter_todo/blocs/todo/todo_event.dart';
 import 'package:flutter_todo/models/models.dart';
+import 'package:flutter_todo/sevices/services.dart';
+import 'package:flutter_todo/ui/screens/todo_detail.dart';
 
 class TodoItem extends StatelessWidget {
   final Todo todo;
-  final Function onDone;
+  final Function(Todo) onChanged;
+  final Function onPressed;
 
-  const TodoItem({Key key, this.todo, this.onDone}) : super(key: key);
+  const TodoItem({
+    Key key,
+    this.todo,
+    this.onChanged,
+    this.onPressed,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -23,9 +31,10 @@ class TodoItem extends StatelessWidget {
               materialTapTargetSize: MaterialTapTargetSize.padded,
               onChanged: (bool value) {
                 todo.done = value;
-                BlocProvider.of<TodoBloc>(context).add(TodoUpdateEvent(todo));
+                onChanged(todo);
               }),
           title: Text(todo.title),
+          onTap: onPressed,
         ),
         const Divider(
           height: 1,

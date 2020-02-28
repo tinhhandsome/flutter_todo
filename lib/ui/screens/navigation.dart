@@ -1,6 +1,6 @@
-import 'package:circular_check_box/circular_check_box.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_sticky_header/flutter_sticky_header.dart';
 import 'package:flutter_todo/blocs/blocs.dart';
 import 'package:flutter_todo/models/models.dart';
 import 'package:flutter_todo/ui/widgets/widgets.dart';
@@ -38,43 +38,41 @@ class _NavigationScreenState extends State<NavigationScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      drawer: CustomDrawer(),
       appBar: AppBar(
         elevation: 0,
         backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+        iconTheme: IconThemeData(color: Theme.of(context).iconTheme.color),
+        textTheme: TextTheme(title: Theme.of(context).textTheme.title),
         title: const Text("My Tasks"),
       ),
-      body: RefreshIndicator(
-        onRefresh: () async {
-          BlocProvider.of<TasksBloc>(context).add(TasksLoadAllTodoEvent());
-          await Future.delayed(const Duration(microseconds: 200));
-        },
-        child:
-            BlocBuilder<TasksBloc, TasksState>(builder: (context, taskState) {
-          var pages = _buildPages(BlocProvider.of<TasksBloc>(context).mapTodo);
-          return PageView(
-            onPageChanged: _selectPage,
-            controller: _pageController,
-            children: pages,
-          );
-        }),
-      ),
+      body: BlocBuilder<TasksBloc, TasksState>(builder: (context, taskState) {
+        var pages = _buildPages(BlocProvider.of<TasksBloc>(context).mapTodo);
+        return PageView(
+          onPageChanged: _selectPage,
+          controller: _pageController,
+          children: pages,
+        );
+      }),
       floatingActionButton: _buildAddButton(),
       bottomNavigationBar: _buildBottomNavigationBar(),
     );
   }
 
   List<Widget> _buildPages(Map<AppTabs, List<Todo>> mapTodo) {
-    return mapTodo.keys
-        .toList()
-        .map((key) => ListTodo(
-              listTodo: mapTodo[key],
-              onRefresh: () async {
-                BlocProvider.of<TasksBloc>(context)
-                    .add(TasksLoadAllTodoEvent());
-                await Future.delayed(const Duration(microseconds: 300));
-              },
-            ))
-        .toList();
+    return mapTodo.keys.toList().map((key) {
+      if (key == AppTabs.all) {
+        return TodoCustomList(
+          onRefresh: onRefresh,
+          listCompletedTodo: mapTodo[AppTabs.completed],
+          listInCompletedTodo: mapTodo[AppTabs.inCompleted],
+        );
+      }
+      return ListTodo(
+        listTodo: mapTodo[key],
+        onRefresh: onRefresh,
+      );
+    }).toList();
   }
 
   Widget _buildBottomNavigationBar() {
@@ -123,6 +121,11 @@ class _NavigationScreenState extends State<NavigationScreen> {
       },
       child: Icon(Icons.add),
     );
+  }
+
+  Future<void> onRefresh() async {
+    BlocProvider.of<TasksBloc>(context).add(TasksLoadAllTodoEvent());
+    await Future.delayed(const Duration(microseconds: 300));
   }
 
   void _selectPage(int index) {

@@ -37,6 +37,13 @@ class TodoApp extends StatelessWidget {
                 case NavigationScreen.routeName:
                   page = NavigationScreen();
                   break;
+                case TodoDetailScreen.routeName:
+                  if (settings.arguments != null) {
+                    page = TodoDetailScreen(
+                      todo: settings.arguments,
+                    );
+                  }
+                  break;
               }
               return MaterialPageRoute(builder: (context) => page);
             },

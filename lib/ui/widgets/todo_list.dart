@@ -1,5 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_todo/blocs/todo/todo_bloc.dart';
+import 'package:flutter_todo/blocs/todo/todo_event.dart';
 import 'package:flutter_todo/models/models.dart';
+import 'package:flutter_todo/sevices/services.dart';
+import 'package:flutter_todo/ui/screens/screens.dart';
 
 import 'todo_item.dart';
 
@@ -26,6 +31,14 @@ class _ListTodoState extends State<ListTodo> {
                 var todo = widget.listTodo[index];
                 return TodoItem(
                   todo: todo,
+                  onChanged: (todo) {
+                    BlocProvider.of<TodoBloc>(context)
+                        .add(TodoUpdateEvent(todo));
+                  },
+                  onPressed: () {
+                    locator<NavigationService>()
+                        .push(TodoDetailScreen.routeName, arguments: todo);
+                  },
                 );
               },
               childCount: widget.listTodo.length,
