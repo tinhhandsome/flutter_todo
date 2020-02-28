@@ -67,6 +67,10 @@ class _TodoDetailScreenState extends State<TodoDetailScreen> {
             initialData: Todo.fromJson(widget.todo.toJson()),
             builder: (context, snapshot) {
               var todo = snapshot.data;
+              if (snapshot.data.expired != null && snapshot.data.expired > 0) {
+                date =
+                    DateTime.fromMillisecondsSinceEpoch(snapshot.data.expired);
+              }
               var time = Formatter.formatDateNotAgoFrom(snapshot.data.expired);
               return ListView(
                 children: <Widget>[
