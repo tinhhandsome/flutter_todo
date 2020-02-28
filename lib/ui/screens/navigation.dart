@@ -17,6 +17,7 @@ class NavigationScreen extends StatefulWidget {
 class _NavigationScreenState extends State<NavigationScreen> {
   final TabsBloc _tabsBloc = TabsBloc();
   final PageController _pageController = PageController();
+  DateTime currentBackPressTime;
 
   @override
   void initState() {
@@ -37,25 +38,28 @@ class _NavigationScreenState extends State<NavigationScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      drawer: CustomDrawer(),
-      appBar: AppBar(
-        elevation: 0,
-        backgroundColor: Theme.of(context).scaffoldBackgroundColor,
-        iconTheme: IconThemeData(color: Theme.of(context).iconTheme.color),
-        textTheme: TextTheme(title: Theme.of(context).textTheme.title),
-        title: const Text("My Tasks"),
+    return WillPopScope(
+      onWillPop: _onWillPop,
+      child: Scaffold(
+        drawer: CustomDrawer(),
+        appBar: AppBar(
+          elevation: 0,
+          backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+          iconTheme: IconThemeData(color: Theme.of(context).iconTheme.color),
+          textTheme: TextTheme(title: Theme.of(context).textTheme.title),
+          title: const Text("My Tasks"),
+        ),
+        body: BlocBuilder<TasksBloc, TasksState>(builder: (context, taskState) {
+          var pages = _buildPages(BlocProvider.of<TasksBloc>(context).mapTodo);
+          return PageView(
+            onPageChanged: _selectPage,
+            controller: _pageController,
+            children: pages,
+          );
+        }),
+        floatingActionButton: _buildAddButton(),
+        bottomNavigationBar: _buildBottomNavigationBar(),
       ),
-      body: BlocBuilder<TasksBloc, TasksState>(builder: (context, taskState) {
-        var pages = _buildPages(BlocProvider.of<TasksBloc>(context).mapTodo);
-        return PageView(
-          onPageChanged: _selectPage,
-          controller: _pageController,
-          children: pages,
-        );
-      }),
-      floatingActionButton: _buildAddButton(),
-      bottomNavigationBar: _buildBottomNavigationBar(),
     );
   }
 
@@ -122,6 +126,17 @@ class _NavigationScreenState extends State<NavigationScreen> {
       },
       child: Icon(Icons.add),
     );
+  }
+
+  Future<bool> _onWillPop() async {
+    final DateTime now = DateTime.now();
+    if (currentBackPressTime == null ||
+        now.difference(currentBackPressTime) > const Duration(seconds: 2)) {
+      currentBackPressTime = now;
+      await Fluttertoast.showToast(msg: "Back again to leave");
+      return Future.value(false);
+    }
+    return Future.value(true);
   }
 
   Future<void> onRefresh() async {

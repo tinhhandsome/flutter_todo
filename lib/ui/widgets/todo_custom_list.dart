@@ -43,7 +43,7 @@ class _TodoCustomListState extends State<TodoCustomList> {
                       arguments: widget.listInCompletedTodo[index]);
                 },
               ),
-              childCount: widget.listInCompletedTodo.length,
+              childCount: widget.listInCompletedTodo?.length,
             ),
           ),
           SliverStickyHeaderBuilder(
