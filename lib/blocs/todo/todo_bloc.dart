@@ -37,7 +37,7 @@ class TodoBloc extends Bloc<TodoEvent, TodoState> {
       var todo = await todoRepository.updateTodo(todo: event.todo);
       yield TodoUpdatedState(todo);
     } catch (exception) {
-      yield TodoErrorState(exception.toString());
+      yield TodoErrorState(exception.message);
     }
   }
 
@@ -47,7 +47,7 @@ class TodoBloc extends Bloc<TodoEvent, TodoState> {
       var todo = await todoRepository.createTodo(todo: event.todo);
       yield TodoAddedState(todo);
     } catch (exception) {
-      yield TodoErrorState(exception.toString());
+      yield TodoErrorState(exception.message);
     }
   }
 
@@ -57,7 +57,7 @@ class TodoBloc extends Bloc<TodoEvent, TodoState> {
       var success = await todoRepository.deleteTodo(todo: event.todo);
       yield TodoDeletedState(success);
     } catch (exception) {
-      yield TodoErrorState(exception.toString());
+      yield TodoErrorState(exception.message);
     }
   }
 }

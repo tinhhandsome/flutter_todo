@@ -57,7 +57,7 @@ class TasksBloc extends Bloc<TasksEvent, TasksState> {
 
       yield TasksLoadedAllTodoState(mapTodo);
     } catch (exception) {
-      yield TasksErrorState(exception.toString());
+      yield TasksErrorState(exception.message);
     }
   }
 

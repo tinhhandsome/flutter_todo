@@ -11,7 +11,7 @@ class TodoDao {
   const TodoDao();
   //Adds new Todo records
   Future<int> createTodo({Todo todo}) async {
-    if (todo.title.isEmpty) {
+    if (todo.title == null || todo.title.isEmpty) {
       throw Exception(titleIsEmptyException);
     }
     final result = locator<DatabaseProvider>()
@@ -72,7 +72,7 @@ class TodoDao {
     if (todo == null) {
       throw Exception(invalidArgumentsException);
     }
-    if (todo.title.isEmpty) {
+    if (todo.title == null || todo.title.isEmpty) {
       throw Exception(titleIsEmptyException);
     }
     final result = await locator<DatabaseProvider>().database.update(

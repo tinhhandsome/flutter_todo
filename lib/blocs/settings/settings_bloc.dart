@@ -31,7 +31,7 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
       await repository.updateSetting(event.settings);
       yield SettingsUpdatedSettingsState(event.settings);
     } catch (exception) {
-      yield SettingsErrorState(exception.toString());
+      yield SettingsErrorState(exception.message);
     }
   }
 }
