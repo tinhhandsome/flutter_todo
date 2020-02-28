@@ -29,10 +29,6 @@ class TodoBloc extends Bloc<TodoEvent, TodoState> {
       yield* _handleDeleteTodoEvent(event);
       return;
     }
-    if (event is TodoEditingEvent) {
-      yield* _handleTodoEditingEvent(event);
-      return;
-    }
   }
 
   Stream<TodoState> _handleUpdateTodoEvent(TodoUpdateEvent event) async* {
@@ -53,11 +49,6 @@ class TodoBloc extends Bloc<TodoEvent, TodoState> {
     } catch (exception) {
       yield TodoErrorState(exception.toString());
     }
-  }
-
-  Stream<TodoState> _handleTodoEditingEvent(TodoEditingEvent event) async* {
-    _todo = event.todo;
-    yield TodoEditedState();
   }
 
   Stream<TodoState> _handleDeleteTodoEvent(TodoDeleteEvent event) async* {

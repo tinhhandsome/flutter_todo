@@ -1,7 +1,7 @@
 class Settings {
   int themeMode;
 
-  Settings({this.themeMode = 0});
+  Settings({this.themeMode = 1});
 
   Settings.fromJson(Map<String, dynamic> json) {
     themeMode = json['theme_mode'];

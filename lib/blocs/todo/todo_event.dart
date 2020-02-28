@@ -44,15 +44,3 @@ class TodoDeleteEvent extends TodoEvent {
   @override
   String toString() => "TodoDeleteEvent {todo: ${todo.toJson()}}";
 }
-
-class TodoEditingEvent extends TodoEvent {
-  final Todo todo;
-
-  const TodoEditingEvent(this.todo);
-
-  @override
-  List<Object> get props => [todo];
-
-  @override
-  String toString() => "TodoEditingEvent {todo: ${todo.toJson()}}";
-}
