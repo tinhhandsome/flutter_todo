@@ -6,7 +6,7 @@ Todo Application
 ## Features
 
 - Add, update, delete todo
-- Show all, completed, incompleted todo
+- Show all, completed, incompleted todos
 - Check done
 - Dark mode
 
