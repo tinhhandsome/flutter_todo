@@ -35,7 +35,7 @@ void main() {
     test("should insert and query todo by id", () async {
       Todo todo = Todo(
         title: "test",
-        expired: "2020-2-16",
+        expired: 1000,
         done: false,
         description: "test game",
       );
@@ -57,7 +57,7 @@ void main() {
     test("should insert, update and query todo by id", () async {
       Todo todo = Todo(
         title: "test",
-        expired: "2020-2-16",
+        expired: 100,
         done: false,
         description: "test game",
       );
@@ -101,7 +101,7 @@ void main() {
     test("should insert, delete and query todo by id", () async {
       Todo todo = Todo(
         title: "test",
-        expired: "2020-2-16",
+        expired: 100,
         done: false,
         description: "test game",
       );

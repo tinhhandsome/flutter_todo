@@ -9,22 +9,22 @@ void main() {
           title: "Bài tập",
           description: "Bài tập về nhà",
           done: false,
-          expired: "");
+          expired: 0);
       expect(todo.toJson(), {
         "id": 1,
         "title": "Bài tập",
         "description": "Bài tập về nhà",
         "done": false,
-        "expired": "",
+        "expired": 0,
       });
     });
     test("fromJson", () {
-      Todo todo = Todo(id: 1, title: "Bài tập", done: false, expired: "");
+      Todo todo = Todo(id: 1, title: "Bài tập", done: false, expired: 0);
       var json = {
         "id": 1,
         "title": "Bài tập",
         "done": false,
-        "expired": "",
+        "expired": 0,
       };
       expect(Todo.fromJson(json).toJson(), todo.toJson());
     });

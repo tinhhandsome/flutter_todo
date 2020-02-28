@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_sticky_header/flutter_sticky_header.dart';
 import 'package:flutter_todo/blocs/blocs.dart';
 import 'package:flutter_todo/models/models.dart';
+import 'package:flutter_todo/ui/bottom_sheets/bottom_sheets.dart';
 import 'package:flutter_todo/ui/widgets/widgets.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -116,8 +116,9 @@ class _NavigationScreenState extends State<NavigationScreen> {
   Widget _buildAddButton() {
     return FloatingActionButton(
       onPressed: () {
-        BlocProvider.of<TodoBloc>(context)
-            .add(TodoAddEvent(Todo(title: "test")));
+        showAddTodoBottomSheet(context, (todo) {
+          BlocProvider.of<TodoBloc>(context).add(TodoAddEvent(todo));
+        });
       },
       child: Icon(Icons.add),
     );

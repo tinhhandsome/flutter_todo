@@ -47,26 +47,28 @@ class _TodoCustomListState extends State<TodoCustomList> {
             ),
           ),
           SliverStickyHeaderBuilder(
-            builder: (context, state) => Column(
-              mainAxisSize: MainAxisSize.min,
-              children: <Widget>[
-                Container(
-                  height: 40.0,
-                  color: Theme.of(context)
-                      .scaffoldBackgroundColor
-                      .withOpacity(1.0 - state.scrollPercentage),
-                  padding: const EdgeInsets.symmetric(horizontal: 15.0),
-                  alignment: Alignment.centerLeft,
-                  child: const Text(
-                    'Completed',
-                    style: TextStyle(color: Colors.green),
+            builder: (context, state) => widget.listCompletedTodo.isEmpty
+                ? Container()
+                : Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: <Widget>[
+                      Container(
+                        height: 40.0,
+                        color: Theme.of(context)
+                            .scaffoldBackgroundColor
+                            .withOpacity(1.0 - state.scrollPercentage),
+                        padding: const EdgeInsets.symmetric(horizontal: 15.0),
+                        alignment: Alignment.centerLeft,
+                        child: const Text(
+                          'Completed',
+                          style: TextStyle(color: Colors.green),
+                        ),
+                      ),
+                      const Divider(
+                        height: 1,
+                      ),
+                    ],
                   ),
-                ),
-                const Divider(
-                  height: 1,
-                ),
-              ],
-            ),
             sliver: SliverList(
               delegate: SliverChildBuilderDelegate(
                 (context, index) => TodoItem(
@@ -78,7 +80,7 @@ class _TodoCustomListState extends State<TodoCustomList> {
                   onPressed: () {
                     locator<NavigationService>().push(
                         TodoDetailScreen.routeName,
-                        arguments: widget.listInCompletedTodo[index]);
+                        arguments: widget.listCompletedTodo[index]);
                   },
                 ),
                 childCount: widget.listCompletedTodo.length,

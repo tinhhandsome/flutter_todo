@@ -1,11 +1,7 @@
 import 'package:circular_check_box/circular_check_box.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_todo/blocs/todo/todo_bloc.dart';
-import 'package:flutter_todo/blocs/todo/todo_event.dart';
 import 'package:flutter_todo/models/models.dart';
-import 'package:flutter_todo/sevices/services.dart';
-import 'package:flutter_todo/ui/screens/todo_detail.dart';
+import 'package:flutter_todo/utils/formatter.dart';
 
 class TodoItem extends StatelessWidget {
   final Todo todo;
@@ -21,6 +17,7 @@ class TodoItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    String time = Formatter.formatDateFrom(todo.expired);
     return Column(
       mainAxisSize: MainAxisSize.min,
       children: <Widget>[
@@ -34,6 +31,10 @@ class TodoItem extends StatelessWidget {
                 onChanged(todo);
               }),
           title: Text(todo.title),
+          subtitle: todo.description != null && todo.description.isNotEmpty
+              ? Text(todo.description)
+              : null,
+          trailing: time.isNotEmpty ? Text(time) : null,
           onTap: onPressed,
         ),
         const Divider(

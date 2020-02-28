@@ -3,7 +3,7 @@ class Todo {
   String title;
   String description;
   bool done;
-  String expired;
+  int expired;
 
   Todo({this.id, this.title, this.done, this.description, this.expired});
 

@@ -36,7 +36,7 @@ class DatabaseProvider {
         "title TEXT, "
         "done INTEGER, "
         "description TEXT, "
-        "expired TEXT"
+        "expired INTEGER"
         ")");
   }
 

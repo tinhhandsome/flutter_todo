@@ -1,11 +1,13 @@
 import 'dart:async';
 import 'package:bloc/bloc.dart';
+import 'package:flutter_todo/models/models.dart';
 import 'package:flutter_todo/repositories/repositories.dart';
 import './bloc.dart';
 
 class TodoBloc extends Bloc<TodoEvent, TodoState> {
   final TodoRepository todoRepository;
-
+  Todo _todo;
+  Todo get todo => _todo;
   TodoBloc({this.todoRepository = const TodoRepository()});
 
   @override
@@ -25,6 +27,10 @@ class TodoBloc extends Bloc<TodoEvent, TodoState> {
     }
     if (event is TodoDeleteEvent) {
       yield* _handleDeleteTodoEvent(event);
+      return;
+    }
+    if (event is TodoEditingEvent) {
+      yield* _handleTodoEditingEvent(event);
       return;
     }
   }
@@ -47,6 +53,11 @@ class TodoBloc extends Bloc<TodoEvent, TodoState> {
     } catch (exception) {
       yield TodoErrorState(exception.toString());
     }
+  }
+
+  Stream<TodoState> _handleTodoEditingEvent(TodoEditingEvent event) async* {
+    _todo = event.todo;
+    yield TodoEditedState();
   }
 
   Stream<TodoState> _handleDeleteTodoEvent(TodoDeleteEvent event) async* {

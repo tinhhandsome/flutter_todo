@@ -41,6 +41,8 @@ class TodoUpdatedState extends TodoState {
   String toString() => "TodoUpdatedState {todo: ${todo.toJson()}}";
 }
 
+class TodoEditedState extends TodoState {}
+
 class TodoDeletedState extends TodoState {
   final bool success;
 
