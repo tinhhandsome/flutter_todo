@@ -86,18 +86,21 @@ class _NavigationScreenState extends State<NavigationScreen> {
 
   List<Widget> _buildPages(Map<AppTabs, List<Todo>> mapTodo) {
     return mapTodo.keys.toList().map((key) {
+      Widget child;
       if (key == AppTabs.all) {
-        return TodoCustomList(
+        child = TodoCustomList(
           onRefresh: onRefresh,
           listCompletedTodo: mapTodo[AppTabs.completed],
           listInCompletedTodo: mapTodo[AppTabs.inCompleted],
         );
+      } else {
+        child = ListTodo(
+          controller: _controller,
+          listTodo: mapTodo[key],
+          onRefresh: onRefresh,
+        );
       }
-      return ListTodo(
-        controller: _controller,
-        listTodo: mapTodo[key],
-        onRefresh: onRefresh,
-      );
+      return RefreshIndicator(child: child, onRefresh: onRefresh);
     }).toList();
   }
 
@@ -163,7 +166,7 @@ class _NavigationScreenState extends State<NavigationScreen> {
 
   Future<void> onRefresh() async {
     BlocProvider.of<TasksBloc>(context).add(TasksLoadAllTodoEvent());
-    await Future.delayed(const Duration(microseconds: 300));
+    await Future.delayed(const Duration(seconds: 1));
   }
 
   void _selectPage(int index) {
