@@ -15,10 +15,7 @@ class TodoInitialState extends TodoState {
   List<Object> get props => [];
 }
 
-class TodoLoadingState extends TodoState {
-  @override
-  List<Object> get props => [];
-}
+class TodoLoadingState extends TodoState {}
 
 class TodoAddedState extends TodoState {
   final Todo todo;
@@ -26,7 +23,7 @@ class TodoAddedState extends TodoState {
   const TodoAddedState(this.todo);
 
   @override
-  List<Object> get props => [todo];
+  List<Object> get props => [todo.toJson()];
 
   @override
   String toString() => "TodoAddedState {todo: ${todo.toJson()}}";
@@ -38,22 +35,22 @@ class TodoUpdatedState extends TodoState {
   const TodoUpdatedState(this.todo);
 
   @override
-  List<Object> get props => [todo];
+  List<Object> get props => [todo.toJson()];
 
   @override
   String toString() => "TodoUpdatedState {todo: ${todo.toJson()}}";
 }
 
 class TodoDeletedState extends TodoState {
-  final Todo todo;
+  final bool success;
 
-  const TodoDeletedState(this.todo);
-
-  @override
-  List<Object> get props => [todo];
+  const TodoDeletedState(this.success);
 
   @override
-  String toString() => "TodoDeletedState {todo: ${todo.toJson()}}";
+  List<Object> get props => [success];
+
+  @override
+  String toString() => "TodoDeletedState {success: $success}";
 }
 
 class TodoErrorState extends TodoState {
@@ -69,9 +66,13 @@ class TodoErrorState extends TodoState {
 }
 
 class TodoLoadedAllState extends TodoState {
-  @override
-  List<Object> get props => [];
+  final Map<AppTabs, List<Todo>> mapTodo;
+
+  const TodoLoadedAllState(this.mapTodo);
 
   @override
-  String toString() => "TodoLoadedAllState";
+  List<Object> get props => [mapTodo];
+
+  @override
+  String toString() => "TodoLoadedAllState {mapTodo: $mapTodo}";
 }

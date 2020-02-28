@@ -19,6 +19,7 @@ void main() {
   tearDown(() {
     settingsBloc?.close();
   });
+
   group("SettingsBloc", () {
     test('initial state is correct', () {
       expect(settingsBloc.initialState, SettingsInitialState());

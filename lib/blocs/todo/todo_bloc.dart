@@ -1,8 +1,20 @@
 import 'dart:async';
 import 'package:bloc/bloc.dart';
+import 'package:flutter_todo/models/models.dart';
+import 'package:flutter_todo/repositories/repositories.dart';
 import './bloc.dart';
 
 class TodoBloc extends Bloc<TodoEvent, TodoState> {
+  final TodoRepository todoRepository;
+  final Map<AppTabs, List<Todo>> mapTodo = {};
+
+  final Map<AppTabs, String> displayName = {
+    AppTabs.all: "All",
+    AppTabs.completed: "Completed",
+    AppTabs.inCompleted: "InCompleted",
+  };
+
+  TodoBloc({this.todoRepository = const TodoRepository()});
 
   @override
   TodoState get initialState => TodoInitialState();
@@ -11,16 +23,62 @@ class TodoBloc extends Bloc<TodoEvent, TodoState> {
   Stream<TodoState> mapEventToState(
     TodoEvent event,
   ) async* {
-    // TODO: Add Logic
+    if (event is TodoUpdateEvent) {
+      yield* _handleUpdateTodoEvent(event);
+      return;
+    }
+    if (event is TodoAddEvent) {
+      yield* _handleAddTodoEvent(event);
+      return;
+    }
+    if (event is TodoDeleteEvent) {
+      yield* _handleDeleteTodoEvent(event);
+      return;
+    }
+    if (event is TodoLoadAllEvent) {
+      yield* _handleLoadAllTodoEvent(event);
+      return;
+    }
   }
 
-
-  Stream<TodoState> _handleUpdateTodoTodoEvent(
-      TodoUpdateEvent event) async* {
+  Stream<TodoState> _handleUpdateTodoEvent(TodoUpdateEvent event) async* {
     yield TodoLoadingState();
     try {
-//      awa
-//      yield TodoUpdatedState(event.settings);
+      var todo = await todoRepository.updateTodo(todo: event.todo);
+      yield TodoUpdatedState(todo);
+    } catch (exception) {
+      yield TodoErrorState(exception.toString());
+    }
+  }
+
+  Stream<TodoState> _handleAddTodoEvent(TodoAddEvent event) async* {
+    yield TodoLoadingState();
+    try {
+      var todo = await todoRepository.createTodo(todo: event.todo);
+      yield TodoAddedState(todo);
+    } catch (exception) {
+      yield TodoErrorState(exception.toString());
+    }
+  }
+
+  Stream<TodoState> _handleDeleteTodoEvent(TodoDeleteEvent event) async* {
+    yield TodoLoadingState();
+    try {
+      var success = await todoRepository.deleteTodo(todo: event.todo);
+      yield TodoDeletedState(success);
+    } catch (exception) {
+      yield TodoErrorState(exception.toString());
+    }
+  }
+
+  Stream<TodoState> _handleLoadAllTodoEvent(TodoLoadAllEvent event) async* {
+    yield TodoLoadingState();
+    try {
+      mapTodo[AppTabs.all] = await todoRepository.getAll();
+      mapTodo[AppTabs.completed] = await todoRepository.getAllTodoCompleted();
+      mapTodo[AppTabs.inCompleted] =
+          await todoRepository.getAllTodoInCompleted();
+      yield TodoLoadedAllState(mapTodo);
     } catch (exception) {
       yield TodoErrorState(exception.toString());
     }

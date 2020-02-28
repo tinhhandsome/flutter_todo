@@ -8,6 +8,7 @@ const String invalidArgumentsException = "Invalid arguments";
 const String titleIsEmptyException = "Title is empty";
 
 class TodoDao {
+  const TodoDao();
   //Adds new Todo records
   Future<int> createTodo({Todo todo}) async {
     if (todo.title.isEmpty) {
