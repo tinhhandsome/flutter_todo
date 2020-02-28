@@ -31,7 +31,7 @@ class SettingsUpdatedSettingsState extends SettingsState {
   const SettingsUpdatedSettingsState(this.settings);
 
   @override
-  List<Object> get props => [settings];
+  List<Object> get props => [settings.toJson()];
 
   @override
   String toString() =>

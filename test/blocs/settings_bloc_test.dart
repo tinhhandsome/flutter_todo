@@ -1,21 +1,11 @@
+import 'package:bloc_test/bloc_test.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:flutter_todo/blocs/blocs.dart';
 import 'package:flutter_todo/models/models.dart';
 import 'package:flutter_todo/repositories/repositories.dart';
 import 'package:mockito/mockito.dart';
 
-class MockSettingsRepository extends Mock implements SettingsRepository {
-//  Settings _settings = Settings();
-//
-//  @override
-//  Settings get settings => _settings;
-//
-//  @override
-//  Future<bool> updateSetting(Settings settings) async {
-//    _settings = settings;
-//    return true;
-//  }
-}
+class MockSettingsRepository extends Mock implements SettingsRepository {}
 
 void main() {
   SettingsBloc settingsBloc;
@@ -34,22 +24,30 @@ void main() {
       expect(settingsBloc.initialState, SettingsInitialState());
     });
 
-    test('Get and update settings', () {
+    test('Get settings', () {
+      when(settingsRepository.settings)
+          .thenAnswer((_) => Settings(themeMode: 1));
+
       var settings = settingsBloc.settings;
 
-      final expectedResponse = <SettingsState>[
-        SettingsInitialState(),
-        SettingsLoadingState(),
-      ];
-
-      when(settingsRepository.updateSetting(Settings(themeMode: 1)))
-          .thenAnswer((_) => Future.value(true));
-
-      expectLater(
-        settingsBloc,
-        emitsInOrder(expectedResponse),
-      );
-      settingsBloc.add(SettingsUpdateSettingsEvent(Settings(themeMode: 1)));
+      expect(1, equals(settings.themeMode));
     });
+
+    blocTest<SettingsBloc, SettingsEvent, SettingsState>(
+      'emits [SettingsLoadingState, SettingsUpdatedSettingsState]'
+      ' when successful',
+      build: () async {
+        var settings = Settings(themeMode: 2);
+        when(settingsRepository.updateSetting(settings))
+            .thenAnswer((_) async => true);
+        return settingsBloc;
+      },
+      act: (bloc) async =>
+          settingsBloc.add(SettingsUpdateSettingsEvent(Settings(themeMode: 2))),
+      expect: [
+        SettingsLoadingState(),
+        SettingsUpdatedSettingsState(Settings(themeMode: 2))
+      ],
+    );
   });
 }
