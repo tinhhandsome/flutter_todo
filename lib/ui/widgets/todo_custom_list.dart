@@ -69,7 +69,8 @@ class _TodoCustomListState extends State<TodoCustomList> {
                       padding: EdgeInsets.only(
                           top: state.isPinned
                               ? MediaQuery.of(context).padding.top
-                              : 0),
+                              : 0,
+                          left: 15),
                       alignment: Alignment.centerLeft,
                       child: const Text(
                         'Completed',

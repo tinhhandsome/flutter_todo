@@ -52,13 +52,16 @@ class _NavigationScreenState extends State<NavigationScreen> {
                 child: SliverAppBar(
                   elevation: 0,
                   pinned: false,
-                  titleSpacing: 100,
+                  expandedHeight: 86,
                   backgroundColor: Theme.of(context).scaffoldBackgroundColor,
                   iconTheme:
                       IconThemeData(color: Theme.of(context).iconTheme.color),
-                  title: Text(
-                    "My Tasks",
-                    style: Theme.of(context).textTheme.title,
+                  flexibleSpace: FlexibleSpaceBar(
+                    centerTitle: true,
+                    title: Text(
+                      "My Tasks",
+                      style: Theme.of(context).textTheme.title,
+                    ),
                   ),
                 ),
               ),
