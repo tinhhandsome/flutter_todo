@@ -14,5 +14,7 @@ void showUndoSnackBar(BuildContext context,
     ),
   );
 
-  Scaffold.of(context).showSnackBar(snackBar);
+  Scaffold.of(context).showSnackBar(
+    snackBar,
+  );
 }

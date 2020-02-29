@@ -12,8 +12,12 @@ class CustomDrawer extends StatelessWidget {
       return Drawer(
         child: ListView(
           children: <Widget>[
-            const DrawerHeader(
-              child: Center(child: Text("Todo App")),
+            DrawerHeader(
+              child: Center(
+                  child: Text(
+                "Todo App",
+                style: Theme.of(context).textTheme.title,
+              )),
             ),
             ListTile(
               title: const Text("Dark mode"),

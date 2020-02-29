@@ -164,12 +164,14 @@ class _TodoDetailScreenState extends State<TodoDetailScreen> {
                                   ],
                                 ),
                               ),
-                        const SizedBox(height: 10,),
+                        const SizedBox(
+                          height: 10,
+                        ),
                         todo.done
                             ? Container()
                             : Center(
                                 child: MaterialButton(
-                                  elevation: 0,
+                                    elevation: 0,
                                     color: Theme.of(context).primaryColor,
                                     child: Text(
                                       "Save",
@@ -182,26 +184,6 @@ class _TodoDetailScreenState extends State<TodoDetailScreen> {
                                     shape: RoundedRectangleBorder(
                                         borderRadius:
                                             BorderRadius.circular(30.0))),
-//                                child: Container(
-//                                  decoration: BoxDecoration(
-//                                      borderRadius: BorderRadius.circular(50),
-//                                      border: Border.all(
-//                                          color:
-//                                              Theme.of(context).dividerColor)),
-//                                  child: FlatButton(
-//                                    padding: EdgeInsets.zero,
-//                                    onPressed: () {
-//                                      BlocProvider.of<TodoBloc>(context)
-//                                          .add(TodoUpdateEvent(todo));
-//                                    },
-//                                    child: Text(
-//                                      "Save",
-//                                      style: TextStyle(
-//                                          color:
-//                                              Theme.of(context).primaryColor),
-//                                    ),
-//                                  ),
-//                                ),
                               ),
                       ],
                     ),
