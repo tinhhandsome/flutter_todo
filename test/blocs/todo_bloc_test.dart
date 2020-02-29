@@ -73,10 +73,9 @@ void main() {
         act: (bloc) async => todoBloc.add(TodoDeleteEvent(todo)),
         expect: [
           TodoLoadingState(),
-          const TodoDeletedState(true),
+          TodoDeletedState(todo),
         ],
       );
     }
-
   });
 }

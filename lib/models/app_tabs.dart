@@ -1,1 +1,1 @@
-enum AppTabs { all, completed, inCompleted }
+enum AppTabs { all, completed, incomplete }

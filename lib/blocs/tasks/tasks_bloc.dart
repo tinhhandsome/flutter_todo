@@ -52,8 +52,7 @@ class TasksBloc extends Bloc<TasksEvent, TasksState> {
       mapTodo[AppTabs.all] = [];
 
       mapTodo[AppTabs.completed] = await todoRepository.getAllTodoCompleted();
-      mapTodo[AppTabs.inCompleted] =
-          await todoRepository.getAllTodoInCompleted();
+      mapTodo[AppTabs.incomplete] = await todoRepository.getAllTodoIncomplete();
 
       yield TasksLoadedAllTodoState(mapTodo);
     } catch (exception) {

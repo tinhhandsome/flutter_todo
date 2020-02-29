@@ -4,6 +4,7 @@ import 'package:flutter_todo/blocs/todo/todo_bloc.dart';
 import 'package:flutter_todo/blocs/todo/todo_event.dart';
 import 'package:flutter_todo/models/models.dart';
 import 'package:flutter_todo/sevices/services.dart';
+import 'package:flutter_todo/ui/common/snack_bar.dart';
 import 'package:flutter_todo/ui/screens/screens.dart';
 
 import 'todo_item.dart';
@@ -37,6 +38,12 @@ class _ListTodoState extends State<ListTodo> {
                 todo: todo,
                 onChanged: (todo) {
                   BlocProvider.of<TodoBloc>(context).add(TodoUpdateEvent(todo));
+
+                  showUndoSnackBar(context, onUndo: () {
+                    todo.done = !todo.done;
+                    BlocProvider.of<TodoBloc>(context)
+                        .add(TodoUpdateEvent(todo));
+                  }, label: todo.done ? "1 completed" : "1 marked incomplete");
                 },
                 onPressed: () {
                   locator<NavigationService>()

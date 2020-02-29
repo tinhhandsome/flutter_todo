@@ -2,7 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_todo/blocs/blocs.dart';
 import 'package:flutter_todo/models/models.dart';
-import 'package:flutter_todo/ui/bottom_sheets/bottom_sheets.dart';
+import 'package:flutter_todo/ui/common/bottom_sheets.dart';
+import 'package:flutter_todo/ui/common/snack_bar.dart';
 import 'package:flutter_todo/ui/widgets/widgets.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -42,41 +43,52 @@ class _NavigationScreenState extends State<NavigationScreen> {
       onWillPop: _onWillPop,
       child: Scaffold(
         drawer: CustomDrawer(),
-        body: NestedScrollView(
-          headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
-            // These are the slivers that show up in the "outer" scroll view.
-            return <Widget>[
-              SliverOverlapAbsorber(
-                handle:
-                    NestedScrollView.sliverOverlapAbsorberHandleFor(context),
-                child: SliverAppBar(
-                  elevation: 0,
-                  pinned: false,
-                  expandedHeight: 86,
-                  backgroundColor: Theme.of(context).scaffoldBackgroundColor,
-                  iconTheme:
-                      IconThemeData(color: Theme.of(context).iconTheme.color),
-                  flexibleSpace: FlexibleSpaceBar(
-                    centerTitle: true,
-                    title: Text(
-                      "My Tasks",
-                      style: Theme.of(context).textTheme.title,
+        body: BlocListener<TodoBloc, TodoState>(
+          listener: (context, state) {
+            if (state is TodoDeletedState) {
+              showUndoSnackBar(context, onUndo: () {
+                BlocProvider.of<TodoBloc>(context)
+                    .add(TodoAddEvent(state.todo));
+              }, label: "1 deleted");
+            }
+          },
+          child: NestedScrollView(
+            headerSliverBuilder:
+                (BuildContext context, bool innerBoxIsScrolled) {
+              // These are the slivers that show up in the "outer" scroll view.
+              return <Widget>[
+                SliverOverlapAbsorber(
+                  handle:
+                      NestedScrollView.sliverOverlapAbsorberHandleFor(context),
+                  child: SliverAppBar(
+                    elevation: 0,
+                    pinned: false,
+                    expandedHeight: 86,
+                    backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+                    iconTheme:
+                        IconThemeData(color: Theme.of(context).iconTheme.color),
+                    flexibleSpace: FlexibleSpaceBar(
+                      centerTitle: true,
+                      title: Text(
+                        "My Tasks",
+                        style: Theme.of(context).textTheme.title,
+                      ),
                     ),
                   ),
                 ),
-              ),
-            ];
-          },
-          body:
-              BlocBuilder<TasksBloc, TasksState>(builder: (context, taskState) {
-            var pages =
-                _buildPages(BlocProvider.of<TasksBloc>(context).mapTodo);
-            return PageView(
-              onPageChanged: _selectPage,
-              controller: _pageController,
-              children: pages,
-            );
-          }),
+              ];
+            },
+            body: BlocBuilder<TasksBloc, TasksState>(
+                builder: (context, taskState) {
+              var pages =
+                  _buildPages(BlocProvider.of<TasksBloc>(context).mapTodo);
+              return PageView(
+                onPageChanged: _selectPage,
+                controller: _pageController,
+                children: pages,
+              );
+            }),
+          ),
         ),
         floatingActionButton: _buildAddButton(),
         bottomNavigationBar: _buildBottomNavigationBar(),
@@ -91,7 +103,7 @@ class _NavigationScreenState extends State<NavigationScreen> {
         child = TodoCustomList(
           onRefresh: onRefresh,
           listCompletedTodo: mapTodo[AppTabs.completed],
-          listInCompletedTodo: mapTodo[AppTabs.inCompleted],
+          listIncompleteTodo: mapTodo[AppTabs.incomplete],
         );
       } else {
         child = ListTodo(
@@ -108,7 +120,7 @@ class _NavigationScreenState extends State<NavigationScreen> {
     final Map<AppTabs, String> displayName = {
       AppTabs.all: "All",
       AppTabs.completed: "Completed",
-      AppTabs.inCompleted: "InCompleted",
+      AppTabs.incomplete: "Incomplete",
     };
 
     return BlocBuilder<TabsBloc, TabsState>(
@@ -136,7 +148,7 @@ class _NavigationScreenState extends State<NavigationScreen> {
                 ),
                 BottomNavigationBarItem(
                   icon: Icon(Icons.event),
-                  title: Text(displayName[AppTabs.inCompleted]),
+                  title: Text(displayName[AppTabs.incomplete]),
                 )
               ]);
         });

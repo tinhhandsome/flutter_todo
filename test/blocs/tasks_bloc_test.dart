@@ -35,7 +35,7 @@ void main() {
           when(todoRepository.getAllTodoCompleted())
               .thenAnswer((_) async => [completed]);
 
-          when(todoRepository.getAllTodoInCompleted())
+          when(todoRepository.getAllTodoIncomplete())
               .thenAnswer((_) async => [inCompleted]);
           return tasksBloc;
         },
@@ -45,7 +45,7 @@ void main() {
           TasksLoadedAllTodoState({
             AppTabs.all: [],
             AppTabs.completed: [completed],
-            AppTabs.inCompleted: [inCompleted],
+            AppTabs.incomplete: [inCompleted],
           }),
         ],
       );

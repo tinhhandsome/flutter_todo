@@ -54,8 +54,8 @@ class TodoBloc extends Bloc<TodoEvent, TodoState> {
   Stream<TodoState> _handleDeleteTodoEvent(TodoDeleteEvent event) async* {
     yield TodoLoadingState();
     try {
-      var success = await todoRepository.deleteTodo(todo: event.todo);
-      yield TodoDeletedState(success);
+      await todoRepository.deleteTodo(todo: event.todo);
+      yield TodoDeletedState(event.todo);
     } catch (exception) {
       yield TodoErrorState(exception.message);
     }

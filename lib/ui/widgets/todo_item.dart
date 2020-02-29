@@ -30,7 +30,11 @@ class TodoItem extends StatelessWidget {
                 todo.done = value;
                 onChanged(todo);
               }),
-          title: Text(todo.title),
+          title: Text(
+            todo.title,
+            style: Theme.of(context).textTheme.title.copyWith(
+                decoration: todo.done ? TextDecoration.lineThrough : null),
+          ),
           subtitle: todo.description != null && todo.description.isNotEmpty
               ? Text(todo.description)
               : null,

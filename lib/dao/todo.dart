@@ -56,7 +56,7 @@ class TodoDao {
     return listTodo;
   }
 
-  Future<List<Todo>> getAllTodoInCompleted() async {
+  Future<List<Todo>> getAllTodoIncomplete() async {
     List<Map<String, dynamic>> result = await locator<DatabaseProvider>()
         .database
         .query(todoTable, where: "done = 0");

@@ -42,15 +42,15 @@ class TodoUpdatedState extends TodoState {
 }
 
 class TodoDeletedState extends TodoState {
-  final bool success;
+  final Todo todo;
 
-  const TodoDeletedState(this.success);
-
-  @override
-  List<Object> get props => [success];
+  const TodoDeletedState(this.todo);
 
   @override
-  String toString() => "TodoDeletedState {success: $success}";
+  List<Object> get props => [todo];
+
+  @override
+  String toString() => "TodoDeletedState {success: $todo}";
 }
 
 class TodoErrorState extends TodoState {

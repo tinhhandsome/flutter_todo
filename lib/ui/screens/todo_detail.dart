@@ -6,6 +6,7 @@ import 'package:flutter_todo/blocs/todo/todo_bloc.dart';
 import 'package:flutter_todo/blocs/todo/todo_event.dart';
 import 'package:flutter_todo/blocs/todo/todo_state.dart';
 import 'package:flutter_todo/models/todo.dart';
+import 'package:flutter_todo/ui/common/snack_bar.dart';
 import 'package:flutter_todo/utils/formatter.dart';
 import 'package:rxdart/rxdart.dart';
 
@@ -96,6 +97,10 @@ class _TodoDetailScreenState extends State<TodoDetailScreen> {
                           decoration: const InputDecoration(
                             hintText: 'Title',
                           ),
+                          style: Theme.of(context).textTheme.title.copyWith(
+                              decoration: todo.done
+                                  ? TextDecoration.lineThrough
+                                  : null),
                           autofocus: true,
                           controller: _titleController,
                           enabled: !todo.done,

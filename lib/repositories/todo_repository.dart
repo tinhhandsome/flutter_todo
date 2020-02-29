@@ -10,8 +10,8 @@ class TodoRepository {
     return todoDao.getAllTodoCompleted();
   }
 
-  Future<List<Todo>> getAllTodoInCompleted() async {
-    return todoDao.getAllTodoInCompleted();
+  Future<List<Todo>> getAllTodoIncomplete() async {
+    return todoDao.getAllTodoIncomplete();
   }
 
   Future<List<Todo>> getAll() async {

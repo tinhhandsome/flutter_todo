@@ -5,12 +5,13 @@ import 'package:flutter_todo/blocs/todo/todo_bloc.dart';
 import 'package:flutter_todo/blocs/todo/todo_event.dart';
 import 'package:flutter_todo/models/models.dart';
 import 'package:flutter_todo/sevices/services.dart';
+import 'package:flutter_todo/ui/common/snack_bar.dart';
 import 'package:flutter_todo/ui/screens/screens.dart';
 import 'package:flutter_todo/ui/widgets/widgets.dart';
 
 class TodoCustomList extends StatefulWidget {
   final List<Todo> listCompletedTodo;
-  final List<Todo> listInCompletedTodo;
+  final List<Todo> listIncompleteTodo;
   final RefreshCallback onRefresh;
   final ScrollController controller;
 
@@ -18,7 +19,7 @@ class TodoCustomList extends StatefulWidget {
     @required this.onRefresh,
     Key key,
     this.listCompletedTodo,
-    this.listInCompletedTodo,
+    this.listIncompleteTodo,
     this.controller,
   }) : super(key: key);
 
@@ -34,23 +35,7 @@ class _TodoCustomListState extends State<TodoCustomList> {
         SliverOverlapInjector(
           handle: NestedScrollView.sliverOverlapAbsorberHandleFor(context),
         ),
-        SliverList(
-          delegate: SliverChildBuilderDelegate(
-            (context, index) => TodoItem(
-              todo: widget.listInCompletedTodo[index],
-              onChanged: (todo) {
-                BlocProvider.of<TodoBloc>(context).add(TodoUpdateEvent(todo));
-              },
-              onPressed: () {
-                locator<NavigationService>().push(TodoDetailScreen.routeName,
-                    arguments: widget.listInCompletedTodo[index]);
-              },
-            ),
-            childCount: widget.listInCompletedTodo == null
-                ? 0
-                : widget.listInCompletedTodo.length,
-          ),
-        ),
+        buildSliverList(widget.listIncompleteTodo),
         SliverStickyHeaderBuilder(
           builder: (context, state) => widget.listCompletedTodo == null ||
                   widget.listCompletedTodo.isEmpty
@@ -82,25 +67,31 @@ class _TodoCustomListState extends State<TodoCustomList> {
                     ),
                   ],
                 ),
-          sliver: SliverList(
-            delegate: SliverChildBuilderDelegate(
-              (context, index) => TodoItem(
-                todo: widget.listCompletedTodo[index],
-                onChanged: (todo) {
-                  BlocProvider.of<TodoBloc>(context).add(TodoUpdateEvent(todo));
-                },
-                onPressed: () {
-                  locator<NavigationService>().push(TodoDetailScreen.routeName,
-                      arguments: widget.listCompletedTodo[index]);
-                },
-              ),
-              childCount: widget.listCompletedTodo == null
-                  ? 0
-                  : widget.listCompletedTodo?.length,
-            ),
-          ),
+          sliver: buildSliverList(widget.listCompletedTodo),
         ),
       ],
+    );
+  }
+
+  SliverList buildSliverList(List<Todo> todos) {
+    return SliverList(
+      delegate: SliverChildBuilderDelegate(
+        (context, index) => TodoItem(
+          todo: todos[index],
+          onChanged: (todo) {
+            BlocProvider.of<TodoBloc>(context).add(TodoUpdateEvent(todo));
+            showUndoSnackBar(context, onUndo: () {
+              todo.done = !todo.done;
+              BlocProvider.of<TodoBloc>(context).add(TodoUpdateEvent(todo));
+            }, label: todo.done ? "1 completed" : "1 marked incomplete");
+          },
+          onPressed: () {
+            locator<NavigationService>()
+                .push(TodoDetailScreen.routeName, arguments: todos[index]);
+          },
+        ),
+        childCount: todos == null ? 0 : todos.length,
+      ),
     );
   }
 }
