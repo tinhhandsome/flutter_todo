@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
 import 'package:flutter_todo/blocs/todo/todo_bloc.dart';
 import 'package:flutter_todo/blocs/todo/todo_event.dart';
 import 'package:flutter_todo/models/models.dart';
@@ -48,6 +49,24 @@ class _ListTodoState extends State<ListTodo> {
                 onPressed: () {
                   locator<NavigationService>()
                       .push(TodoDetailScreen.routeName, arguments: todo);
+                },
+                onDatePressed: () {
+                  var todo = widget.listTodo[index];
+                  DatePicker.showDateTimePicker(
+                    context,
+                    showTitleActions: true,
+                    minTime: DateTime(2018, 3, 5),
+                    maxTime: DateTime.now().add(const Duration(days: 365)),
+                    onChanged: (date) {},
+                    onConfirm: (pick) {
+                      todo.expired = pick.millisecondsSinceEpoch;
+                      BlocProvider.of<TodoBloc>(context)
+                          .add(TodoUpdateEvent(todo));
+                    },
+                    currentTime: todo.expired != null && todo.expired > 0
+                        ? DateTime.fromMillisecondsSinceEpoch(todo.expired)
+                        : DateTime.now(),
+                  );
                 },
               );
             },

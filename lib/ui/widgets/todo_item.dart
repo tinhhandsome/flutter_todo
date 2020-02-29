@@ -7,12 +7,14 @@ class TodoItem extends StatelessWidget {
   final Todo todo;
   final Function(Todo) onChanged;
   final Function onPressed;
+  final VoidCallback onDatePressed;
 
   const TodoItem({
     Key key,
     this.todo,
     this.onChanged,
     this.onPressed,
+    this.onDatePressed,
   }) : super(key: key);
 
   @override
@@ -35,10 +37,42 @@ class TodoItem extends StatelessWidget {
             style: Theme.of(context).textTheme.title.copyWith(
                 decoration: todo.done ? TextDecoration.lineThrough : null),
           ),
-          subtitle: todo.description != null && todo.description.isNotEmpty
-              ? Text(todo.description)
-              : null,
-          trailing: time.isNotEmpty ? Text(time) : null,
+          subtitle: todo.description == null && time.isEmpty
+              ? null
+              : Column(
+                  mainAxisSize: MainAxisSize.min,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: <Widget>[
+                    todo.description != null && todo.description.isNotEmpty
+                        ? Padding(
+                            padding: const EdgeInsets.only(top: 5),
+                            child: Text(todo.description),
+                          )
+                        : const SizedBox(),
+                    time.isNotEmpty
+                        ? OutlineButton(
+                            onPressed: todo.done ? null : onDatePressed,
+                            shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(10)),
+                            child: Row(
+                              mainAxisSize: MainAxisSize.min,
+                              children: <Widget>[
+                                Icon(
+                                  Icons.calendar_today,
+                                  color: time.contains("ago")
+                                      ? Colors.red
+                                      : Theme.of(context).primaryColor,
+                                ),
+                                const SizedBox(
+                                  width: 5,
+                                ),
+                                Text(time),
+                              ],
+                            ),
+                          )
+                        : const SizedBox()
+                  ],
+                ),
           onTap: onPressed,
         ),
         const Divider(
