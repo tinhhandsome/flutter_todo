@@ -6,7 +6,6 @@ import 'package:flutter_todo/blocs/todo/todo_bloc.dart';
 import 'package:flutter_todo/blocs/todo/todo_event.dart';
 import 'package:flutter_todo/blocs/todo/todo_state.dart';
 import 'package:flutter_todo/models/todo.dart';
-import 'package:flutter_todo/ui/common/snack_bar.dart';
 import 'package:flutter_todo/utils/formatter.dart';
 import 'package:rxdart/rxdart.dart';
 
