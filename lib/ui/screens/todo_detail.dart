@@ -46,7 +46,7 @@ class _TodoDetailScreenState extends State<TodoDetailScreen> {
         textTheme: TextTheme(title: Theme.of(context).textTheme.title),
         actions: <Widget>[
           IconButton(
-              icon: Icon(Icons.delete),
+              icon: Icon(Icons.delete_outline),
               onPressed: () {
                 BlocProvider.of<TodoBloc>(context)
                     .add(TodoDeleteEvent(widget.todo));
@@ -164,20 +164,44 @@ class _TodoDetailScreenState extends State<TodoDetailScreen> {
                                   ],
                                 ),
                               ),
+                        const SizedBox(height: 10,),
                         todo.done
                             ? Container()
                             : Center(
-                                child: FlatButton(
+                                child: MaterialButton(
+                                  elevation: 0,
+                                    color: Theme.of(context).primaryColor,
+                                    child: Text(
+                                      "Save",
+                                      style: TextStyle(color: Colors.white),
+                                    ),
                                     onPressed: () {
                                       BlocProvider.of<TodoBloc>(context)
                                           .add(TodoUpdateEvent(todo));
                                     },
-                                    child: Text(
-                                      "Save",
-                                      style: TextStyle(
-                                          color:
-                                              Theme.of(context).primaryColor),
-                                    )),
+                                    shape: RoundedRectangleBorder(
+                                        borderRadius:
+                                            BorderRadius.circular(30.0))),
+//                                child: Container(
+//                                  decoration: BoxDecoration(
+//                                      borderRadius: BorderRadius.circular(50),
+//                                      border: Border.all(
+//                                          color:
+//                                              Theme.of(context).dividerColor)),
+//                                  child: FlatButton(
+//                                    padding: EdgeInsets.zero,
+//                                    onPressed: () {
+//                                      BlocProvider.of<TodoBloc>(context)
+//                                          .add(TodoUpdateEvent(todo));
+//                                    },
+//                                    child: Text(
+//                                      "Save",
+//                                      style: TextStyle(
+//                                          color:
+//                                              Theme.of(context).primaryColor),
+//                                    ),
+//                                  ),
+//                                ),
                               ),
                       ],
                     ),

@@ -161,7 +161,10 @@ class _NavigationScreenState extends State<NavigationScreen> {
           BlocProvider.of<TodoBloc>(context).add(TodoAddEvent(todo));
         });
       },
-      child: Icon(Icons.add),
+      child: Icon(
+        Icons.add,
+        color: Colors.white,
+      ),
     );
   }
 
