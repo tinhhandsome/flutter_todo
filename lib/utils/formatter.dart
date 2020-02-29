@@ -2,31 +2,30 @@ import 'package:intl/intl.dart';
 import 'package:timeago/timeago.dart' as time_ago;
 
 class Formatter {
-  static String formatDateFrom(int dateTime) {
-    if (dateTime == null) {
+  static String formatDateFrom(int millisecondsSinceEpoch) {
+    if (millisecondsSinceEpoch == null) {
       return "";
     }
 
     var time = "";
     try {
-      var date = DateTime.fromMillisecondsSinceEpoch(dateTime);
-      if (date.millisecondsSinceEpoch < DateTime.now().millisecondsSinceEpoch) {
+      var date = DateTime.fromMillisecondsSinceEpoch(millisecondsSinceEpoch);
+      if (millisecondsSinceEpoch < DateTime.now().millisecondsSinceEpoch) {
         time = time_ago.format(date);
       } else {
-        final format = DateFormat('yyyy-MM-dd hh:mm');
-        time = format.format(date);
+        time = formatDateNotAgoFrom(millisecondsSinceEpoch);
       }
     } catch (_) {}
     return time;
   }
 
-  static String formatDateNotAgoFrom(int dateTime) {
-    if (dateTime == null) {
+  static String formatDateNotAgoFrom(int millisecondsSinceEpoch) {
+    if (millisecondsSinceEpoch == null) {
       return "";
     }
     var time = "";
     try {
-      var date = DateTime.fromMillisecondsSinceEpoch(dateTime);
+      var date = DateTime.fromMillisecondsSinceEpoch(millisecondsSinceEpoch);
       final format = DateFormat('yyyy-MM-dd hh:mm');
       time = format.format(date);
     } catch (_) {}
