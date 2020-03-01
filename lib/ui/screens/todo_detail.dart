@@ -113,6 +113,8 @@ class _TodoDetailScreenState extends State<TodoDetailScreen> {
                                   ? TextDecoration.lineThrough
                                   : null),
                           autofocus: true,
+                          keyboardType: TextInputType.multiline,
+                          maxLines: null,
                           controller: _titleController,
                           enabled: !todo.done,
                           onChanged: (value) {
@@ -124,6 +126,8 @@ class _TodoDetailScreenState extends State<TodoDetailScreen> {
                           decoration:
                               const InputDecoration(hintText: 'Description'),
                           autofocus: true,
+                          keyboardType: TextInputType.multiline,
+                          maxLines: null,
                           controller: _descriptionController,
                           enabled: !todo.done,
                           onChanged: (value) {

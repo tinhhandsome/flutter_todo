@@ -39,6 +39,8 @@ void showAddTodoBottomSheet(BuildContext context, Function(Todo) onAdded) {
                         TextField(
                           decoration: const InputDecoration(hintText: 'Title'),
                           autofocus: true,
+                          keyboardType: TextInputType.multiline,
+                          maxLines: null,
                           onChanged: (value) {
                             todo.title = value;
                             _todoSubject.add(todo);
@@ -48,6 +50,8 @@ void showAddTodoBottomSheet(BuildContext context, Function(Todo) onAdded) {
                           decoration:
                               const InputDecoration(hintText: 'Description'),
                           autofocus: true,
+                          keyboardType: TextInputType.multiline,
+                          maxLines: null,
                           onChanged: (value) {
                             todo.description = value;
                             _todoSubject.add(todo);
