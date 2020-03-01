@@ -59,6 +59,12 @@ class _TodoDetailScreenState extends State<TodoDetailScreen> {
           if (state is TodoUpdatedState) {
             Navigator.of(context).pop();
           }
+          if (state is TodoCompletedState) {
+            Navigator.of(context).pop();
+          }
+          if (state is TodoMarkedIncompleteState) {
+            Navigator.of(context).pop();
+          }
           if (state is TodoDeletedState) {
             Navigator.of(context).pop();
           }
@@ -82,8 +88,13 @@ class _TodoDetailScreenState extends State<TodoDetailScreen> {
                         materialTapTargetSize: MaterialTapTargetSize.padded,
                         onChanged: (bool value) {
                           todo.done = value;
-                          BlocProvider.of<TodoBloc>(context)
-                              .add(TodoUpdateEvent(todo));
+                          if (todo.done) {
+                            BlocProvider.of<TodoBloc>(context)
+                                .add(TodoCompleteEvent(todo));
+                          } else {
+                            BlocProvider.of<TodoBloc>(context)
+                                .add(TodoMarkIncompleteEvent(todo));
+                          }
                         }),
                     title: const Text("Done"),
                   ),

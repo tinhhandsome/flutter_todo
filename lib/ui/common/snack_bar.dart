@@ -13,7 +13,7 @@ void showUndoSnackBar(BuildContext context,
       onPressed: onUndo,
     ),
   );
-
+  Scaffold.of(context).hideCurrentSnackBar();
   Scaffold.of(context).showSnackBar(
     snackBar,
   );

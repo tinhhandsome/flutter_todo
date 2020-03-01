@@ -51,6 +51,20 @@ class _NavigationScreenState extends State<NavigationScreen> {
                     .add(TodoAddEvent(state.todo));
               }, label: "1 deleted");
             }
+            if (state is TodoCompletedState) {
+              showUndoSnackBar(context, onUndo: () {
+                state.todo.done = false;
+                BlocProvider.of<TodoBloc>(context)
+                    .add(TodoUpdateEvent(state.todo));
+              }, label: "1 completed");
+            }
+            if (state is TodoMarkedIncompleteState) {
+              showUndoSnackBar(context, onUndo: () {
+                state.todo.done = true;
+                BlocProvider.of<TodoBloc>(context)
+                    .add(TodoUpdateEvent(state.todo));
+              }, label: "1 marked incomplete");
+            }
           },
           child: NestedScrollView(
             headerSliverBuilder:

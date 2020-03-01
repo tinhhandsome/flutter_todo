@@ -81,11 +81,12 @@ class _TodoCustomListState extends State<TodoCustomList> {
         (context, index) => TodoItem(
           todo: todos[index],
           onChanged: (todo) {
-            BlocProvider.of<TodoBloc>(context).add(TodoUpdateEvent(todo));
-            showUndoSnackBar(context, onUndo: () {
-              todo.done = !todo.done;
-              BlocProvider.of<TodoBloc>(context).add(TodoUpdateEvent(todo));
-            }, label: todo.done ? "1 completed" : "1 marked incomplete");
+            if (todo.done) {
+              BlocProvider.of<TodoBloc>(context).add(TodoCompleteEvent(todo));
+            } else {
+              BlocProvider.of<TodoBloc>(context)
+                  .add(TodoMarkIncompleteEvent(todo));
+            }
           },
           onPressed: () {
             locator<NavigationService>()

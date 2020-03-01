@@ -28,6 +28,12 @@ class TasksBloc extends Bloc<TasksEvent, TasksState> {
         if (state is TodoUpdatedState) {
           add(TasksLoadAllTodoEvent());
         }
+        if (state is TodoCompletedState) {
+          add(TasksLoadAllTodoEvent());
+        }
+        if (state is TodoMarkedIncompleteState) {
+          add(TasksLoadAllTodoEvent());
+        }
       });
     }
   }

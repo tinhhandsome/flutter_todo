@@ -39,13 +39,13 @@ class _ListTodoState extends State<ListTodo> {
               return TodoItem(
                 todo: todo,
                 onChanged: (todo) {
-                  BlocProvider.of<TodoBloc>(context).add(TodoUpdateEvent(todo));
-
-                  showUndoSnackBar(context, onUndo: () {
-                    todo.done = !todo.done;
+                  if (todo.done) {
                     BlocProvider.of<TodoBloc>(context)
-                        .add(TodoUpdateEvent(todo));
-                  }, label: todo.done ? "1 completed" : "1 marked incomplete");
+                        .add(TodoCompleteEvent(todo));
+                  } else {
+                    BlocProvider.of<TodoBloc>(context)
+                        .add(TodoMarkIncompleteEvent(todo));
+                  }
                 },
                 onPressed: () {
                   locator<NavigationService>()
