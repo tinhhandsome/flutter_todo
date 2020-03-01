@@ -6,7 +6,6 @@ import 'package:flutter_todo/blocs/todo/todo_bloc.dart';
 import 'package:flutter_todo/blocs/todo/todo_event.dart';
 import 'package:flutter_todo/models/models.dart';
 import 'package:flutter_todo/sevices/services.dart';
-import 'package:flutter_todo/ui/common/snack_bar.dart';
 import 'package:flutter_todo/ui/screens/screens.dart';
 import 'package:flutter_todo/ui/widgets/widgets.dart';
 import 'package:flutter_todo/utils/themes.dart';

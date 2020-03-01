@@ -27,7 +27,7 @@ class TodoApp extends StatelessWidget {
               TasksBloc(todoBloc: BlocProvider.of<TodoBloc>(context)),
           child: MaterialApp(
             navigatorKey: locator<NavigationService>().navigatorKey,
-            title: "Todo",
+            title: "To Do",
             debugShowCheckedModeBanner: false,
             darkTheme: Themes.getTheme(ThemeMode.dark),
             theme: Themes.getTheme(ThemeMode.light),
