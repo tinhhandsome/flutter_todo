@@ -21,6 +21,14 @@ class TodoBloc extends Bloc<TodoEvent, TodoState> {
       yield* _handleUpdateTodoEvent(event);
       return;
     }
+    if (event is TodoMarkIncompleteEvent) {
+      yield* _handleTodoMarkIncompleteEvent(event);
+      return;
+    }
+    if (event is TodoCompleteEvent) {
+      yield* _handleTodoCompleteEvent(event);
+      return;
+    }
     if (event is TodoAddEvent) {
       yield* _handleAddTodoEvent(event);
       return;
@@ -36,6 +44,27 @@ class TodoBloc extends Bloc<TodoEvent, TodoState> {
     try {
       var todo = await todoRepository.updateTodo(todo: event.todo);
       yield TodoUpdatedState(todo);
+    } catch (exception) {
+      yield TodoErrorState(exception.message);
+    }
+  }
+
+  Stream<TodoState> _handleTodoMarkIncompleteEvent(
+      TodoMarkIncompleteEvent event) async* {
+    yield TodoLoadingState();
+    try {
+      var todo = await todoRepository.updateTodo(todo: event.todo);
+      yield TodoMarkedIncompleteState(todo);
+    } catch (exception) {
+      yield TodoErrorState(exception.message);
+    }
+  }
+
+  Stream<TodoState> _handleTodoCompleteEvent(TodoCompleteEvent event) async* {
+    yield TodoLoadingState();
+    try {
+      var todo = await todoRepository.updateTodo(todo: event.todo);
+      yield TodoCompletedState(todo);
     } catch (exception) {
       yield TodoErrorState(exception.message);
     }

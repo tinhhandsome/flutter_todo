@@ -33,6 +33,30 @@ class TodoUpdateEvent extends TodoEvent {
   String toString() => "TodoUpdateEvent {todo: ${todo.toJson()}}";
 }
 
+class TodoMarkIncompleteEvent extends TodoEvent {
+  final Todo todo;
+
+  const TodoMarkIncompleteEvent(this.todo);
+
+  @override
+  List<Object> get props => [todo];
+
+  @override
+  String toString() => "TodoMarkIncompleteEvent {todo: ${todo.toJson()}}";
+}
+
+class TodoCompleteEvent extends TodoEvent {
+  final Todo todo;
+
+  const TodoCompleteEvent(this.todo);
+
+  @override
+  List<Object> get props => [todo];
+
+  @override
+  String toString() => "TodoCompleteEvent {todo: ${todo.toJson()}}";
+}
+
 class TodoDeleteEvent extends TodoEvent {
   final Todo todo;
 

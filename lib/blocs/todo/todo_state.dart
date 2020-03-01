@@ -41,6 +41,30 @@ class TodoUpdatedState extends TodoState {
   String toString() => "TodoUpdatedState {todo: ${todo.toJson()}}";
 }
 
+class TodoMarkedIncompleteState extends TodoState {
+  final Todo todo;
+
+  const TodoMarkedIncompleteState(this.todo);
+
+  @override
+  List<Object> get props => [todo.toJson()];
+
+  @override
+  String toString() => "TodoMarkedIncompleteState {todo: ${todo.toJson()}}";
+}
+
+class TodoCompletedState extends TodoState {
+  final Todo todo;
+
+  const TodoCompletedState(this.todo);
+
+  @override
+  List<Object> get props => [todo.toJson()];
+
+  @override
+  String toString() => "TodoCompletedState {todo: ${todo.toJson()}}";
+}
+
 class TodoDeletedState extends TodoState {
   final Todo todo;
 

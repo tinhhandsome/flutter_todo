@@ -62,6 +62,46 @@ void main() {
     {
       var todo = Todo(title: "test", done: false);
       blocTest<TodoBloc, TodoEvent, TodoState>(
+        'emits [TodoLoadingState(), TodoMarkedIncompleteState]'
+        'when successful',
+        build: () async {
+          todo.id = 1;
+          todo.done = false;
+          when(todoRepository.updateTodo(todo: todo))
+              .thenAnswer((_) async => todo);
+          return todoBloc;
+        },
+        act: (bloc) async => todoBloc.add(TodoMarkIncompleteEvent(todo)),
+        expect: [
+          TodoLoadingState(),
+          TodoMarkedIncompleteState(todo),
+        ],
+      );
+    }
+
+    {
+      var todo = Todo(title: "test", done: false);
+      blocTest<TodoBloc, TodoEvent, TodoState>(
+        'emits [TodoLoadingState(), TodoCompletedState]'
+        'when successful',
+        build: () async {
+          todo.id = 1;
+          todo.done = true;
+          when(todoRepository.updateTodo(todo: todo))
+              .thenAnswer((_) async => todo);
+          return todoBloc;
+        },
+        act: (bloc) async => todoBloc.add(TodoCompleteEvent(todo)),
+        expect: [
+          TodoLoadingState(),
+          TodoCompletedState(todo),
+        ],
+      );
+    }
+
+    {
+      var todo = Todo(title: "test", done: false);
+      blocTest<TodoBloc, TodoEvent, TodoState>(
         'emits [TodoLoadingState(), TodoDeletedState]'
         'when successful',
         build: () async {
