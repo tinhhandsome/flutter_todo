@@ -5,9 +5,11 @@ import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
 import 'package:flutter_todo/blocs/todo/todo_bloc.dart';
 import 'package:flutter_todo/blocs/todo/todo_event.dart';
 import 'package:flutter_todo/blocs/todo/todo_state.dart';
+import 'package:flutter_todo/generated/l10n.dart';
 import 'package:flutter_todo/models/todo.dart';
+import 'package:flutter_todo/ui/common/show_date_time_picker.dart';
 import 'package:flutter_todo/utils/formatter.dart';
-import 'package:flutter_todo/utils/themes.dart';
+import 'package:flutter_todo/utils/themes/themes.dart';
 import 'package:rxdart/rxdart.dart';
 
 class TodoDetailScreen extends StatefulWidget {
@@ -41,10 +43,6 @@ class _TodoDetailScreenState extends State<TodoDetailScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        elevation: 0,
-        backgroundColor: Theme.of(context).scaffoldBackgroundColor,
-        iconTheme: IconThemeData(color: Theme.of(context).iconTheme.color),
-        textTheme: TextTheme(title: Theme.of(context).textTheme.title),
         actions: <Widget>[
           IconButton(
               icon: Icon(Icons.delete_outline),
@@ -96,7 +94,7 @@ class _TodoDetailScreenState extends State<TodoDetailScreen> {
                                 .add(TodoMarkIncompleteEvent(todo));
                           }
                         }),
-                    title: const Text("Done"),
+                    title: Text(S.of(context).completedLabel),
                   ),
                   Padding(
                     padding: const EdgeInsets.only(left: 30, right: 30),
@@ -105,8 +103,8 @@ class _TodoDetailScreenState extends State<TodoDetailScreen> {
                       mainAxisSize: MainAxisSize.min,
                       children: <Widget>[
                         TextField(
-                          decoration: const InputDecoration(
-                            hintText: 'Title',
+                          decoration: InputDecoration(
+                            hintText: S.of(context).titleHintText,
                           ),
                           style: Theme.of(context).textTheme.title.copyWith(
                               decoration: todo.done
@@ -123,8 +121,8 @@ class _TodoDetailScreenState extends State<TodoDetailScreen> {
                           },
                         ),
                         TextField(
-                          decoration:
-                              const InputDecoration(hintText: 'Description'),
+                          decoration: InputDecoration(
+                              hintText: S.of(context).descriptionHintText),
                           autofocus: true,
                           keyboardType: TextInputType.multiline,
                           maxLines: null,
@@ -142,22 +140,15 @@ class _TodoDetailScreenState extends State<TodoDetailScreen> {
                                 onPressed: todo.done
                                     ? null
                                     : () {
-                                        DatePicker.showDateTimePicker(
+                                        showDateTimePicker(
                                           context,
-                                          showTitleActions: true,
-                                          minTime: DateTime(2018, 3, 5),
-                                          theme: Themes.getDateThemPickerTheme(
-                                              context),
-                                          maxTime: DateTime.now()
-                                              .add(const Duration(days: 365)),
-                                          onChanged: (date) {},
+                                          current: date,
                                           onConfirm: (pick) {
                                             date = pick;
                                             todo.expired =
                                                 pick.millisecondsSinceEpoch;
                                             _todoSubject.add(todo);
                                           },
-                                          currentTime: date,
                                         );
                                       },
                                 child: Row(
@@ -170,7 +161,7 @@ class _TodoDetailScreenState extends State<TodoDetailScreen> {
                                     Expanded(
                                         child: Text(time.isNotEmpty
                                             ? time
-                                            : "Add time")),
+                                            : S.of(context).addTimeLabel)),
                                     time.isNotEmpty && !todo.done
                                         ? IconButton(
                                             icon: Icon(Icons.clear),
@@ -192,7 +183,7 @@ class _TodoDetailScreenState extends State<TodoDetailScreen> {
                                     elevation: 0,
                                     color: Theme.of(context).primaryColor,
                                     child: Text(
-                                      "Save",
+                                      S.of(context).saveLabelButton,
                                       style: TextStyle(color: Colors.white),
                                     ),
                                     onPressed: () {

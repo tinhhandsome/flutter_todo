@@ -1,7 +1,7 @@
 import 'package:circular_check_box/circular_check_box.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_todo/models/models.dart';
-import 'package:flutter_todo/utils/formatter.dart';
+import 'package:flutter_todo/utils/utils.dart';
 
 class TodoItem extends StatelessWidget {
   final Todo todo;
@@ -59,7 +59,8 @@ class TodoItem extends StatelessWidget {
                               children: <Widget>[
                                 Icon(
                                   Icons.calendar_today,
-                                  color: time.contains("ago")
+                                  color: todo.expired <=
+                                          DateTime.now().millisecondsSinceEpoch
                                       ? Colors.red
                                       : Theme.of(context).primaryColor,
                                 ),

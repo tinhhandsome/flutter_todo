@@ -30,6 +30,11 @@ final ThemeData light = ThemeData(
   indicatorColor: const Color(0xff2196f3),
   hintColor: const Color(0x8a000000),
   errorColor: const Color(0xffd32f2f),
+  appBarTheme: const AppBarTheme(
+    elevation: 0,
+    color: Color(0xfffafafa),
+    iconTheme: IconThemeData(color: Color(0xdd000000)),
+  ),
   buttonTheme: const ButtonThemeData(
     textTheme: ButtonTextTheme.normal,
     minWidth: 88,

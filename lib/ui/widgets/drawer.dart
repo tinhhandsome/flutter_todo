@@ -2,6 +2,9 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_todo/blocs/blocs.dart';
+import 'package:flutter_todo/generated/l10n.dart';
+import 'package:flutter_todo/sevices/services.dart';
+import 'package:flutter_todo/ui/screens/screens.dart';
 
 class CustomDrawer extends StatelessWidget {
   @override
@@ -15,12 +18,13 @@ class CustomDrawer extends StatelessWidget {
             DrawerHeader(
               child: Center(
                   child: Text(
-                "Todo App",
+                S.of(context).appName,
                 style: Theme.of(context).textTheme.title,
               )),
             ),
             ListTile(
-              title: const Text("Dark mode"),
+              leading: Icon(Icons.brightness_2),
+              title: Text(S.of(context).darkModeTitle),
               trailing: CupertinoSwitch(
                 activeColor: Theme.of(context).primaryColor,
                 value: settings.themeMode == 2,
@@ -30,7 +34,14 @@ class CustomDrawer extends StatelessWidget {
                       .add(SettingsUpdateSettingsEvent(settings));
                 },
               ),
-            )
+            ),
+            ListTile(
+              leading: Icon(Icons.language),
+              title: Text(S.of(context).languageTitle),
+              onTap: () {
+                locator<NavigationService>().push(LanguageScreen.routeName);
+              },
+            ),
           ],
         ),
       );

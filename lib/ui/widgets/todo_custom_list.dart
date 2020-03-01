@@ -4,11 +4,13 @@ import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
 import 'package:flutter_sticky_header/flutter_sticky_header.dart';
 import 'package:flutter_todo/blocs/todo/todo_bloc.dart';
 import 'package:flutter_todo/blocs/todo/todo_event.dart';
+import 'package:flutter_todo/generated/l10n.dart';
 import 'package:flutter_todo/models/models.dart';
 import 'package:flutter_todo/sevices/services.dart';
+import 'package:flutter_todo/ui/common/show_date_time_picker.dart';
 import 'package:flutter_todo/ui/screens/screens.dart';
 import 'package:flutter_todo/ui/widgets/widgets.dart';
-import 'package:flutter_todo/utils/themes.dart';
+import 'package:flutter_todo/utils/themes/themes.dart';
 
 class TodoCustomList extends StatefulWidget {
   final List<Todo> listCompletedTodo;
@@ -58,8 +60,8 @@ class _TodoCustomListState extends State<TodoCustomList> {
                               : 0,
                           left: 15),
                       alignment: Alignment.centerLeft,
-                      child: const Text(
-                        'Completed',
+                      child: Text(
+                        S.of(context).completedLabel,
                         style: TextStyle(color: Colors.green),
                       ),
                     ),
@@ -92,22 +94,16 @@ class _TodoCustomListState extends State<TodoCustomList> {
                 .push(TodoDetailScreen.routeName, arguments: todos[index]);
           },
           onDatePressed: () {
-            DatePicker.showDateTimePicker(
+            showDateTimePicker(
               context,
-              showTitleActions: true,
-              minTime: DateTime(2018, 3, 5),
-              maxTime: DateTime.now().add(const Duration(days: 365)),
-              theme: Themes.getDateThemPickerTheme(context),
-              onChanged: (date) {},
+              current: todos[index].expired != null && todos[index].expired > 0
+                  ? DateTime.fromMillisecondsSinceEpoch(todos[index].expired)
+                  : DateTime.now(),
               onConfirm: (pick) {
                 todos[index].expired = pick.millisecondsSinceEpoch;
                 BlocProvider.of<TodoBloc>(context)
                     .add(TodoUpdateEvent(todos[index]));
               },
-              currentTime: todos[index].expired != null &&
-                      todos[index].expired > 0
-                  ? DateTime.fromMillisecondsSinceEpoch(todos[index].expired)
-                  : DateTime.now(),
             );
           },
         ),

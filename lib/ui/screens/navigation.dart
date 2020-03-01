@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_todo/blocs/blocs.dart';
+import 'package:flutter_todo/generated/l10n.dart';
 import 'package:flutter_todo/models/models.dart';
 import 'package:flutter_todo/ui/common/bottom_sheets.dart';
 import 'package:flutter_todo/ui/common/snack_bar.dart';
@@ -49,21 +50,21 @@ class _NavigationScreenState extends State<NavigationScreen> {
               showUndoSnackBar(context, onUndo: () {
                 BlocProvider.of<TodoBloc>(context)
                     .add(TodoAddEvent(state.todo));
-              }, label: "1 deleted");
+              }, label: S.of(context).oneDeletedMessage("1"));
             }
             if (state is TodoCompletedState) {
               showUndoSnackBar(context, onUndo: () {
                 state.todo.done = false;
                 BlocProvider.of<TodoBloc>(context)
                     .add(TodoUpdateEvent(state.todo));
-              }, label: "1 completed");
+              }, label: S.of(context).oneCompletedMessage("1"));
             }
             if (state is TodoMarkedIncompleteState) {
               showUndoSnackBar(context, onUndo: () {
                 state.todo.done = true;
                 BlocProvider.of<TodoBloc>(context)
                     .add(TodoUpdateEvent(state.todo));
-              }, label: "1 marked incomplete");
+              }, label: S.of(context).oneMarkedIncompleteMessage("1"));
             }
           },
           child: NestedScrollView(
@@ -75,16 +76,12 @@ class _NavigationScreenState extends State<NavigationScreen> {
                   handle:
                       NestedScrollView.sliverOverlapAbsorberHandleFor(context),
                   child: SliverAppBar(
-                    elevation: 0,
                     pinned: false,
                     expandedHeight: 86,
-                    backgroundColor: Theme.of(context).scaffoldBackgroundColor,
-                    iconTheme:
-                        IconThemeData(color: Theme.of(context).iconTheme.color),
                     flexibleSpace: FlexibleSpaceBar(
                       centerTitle: true,
                       title: Text(
-                        "My Tasks",
+                        S.of(context).myTasksTitle,
                         style: Theme.of(context).textTheme.title,
                       ),
                     ),
@@ -132,9 +129,9 @@ class _NavigationScreenState extends State<NavigationScreen> {
 
   Widget _buildBottomNavigationBar() {
     final Map<AppTabs, String> displayName = {
-      AppTabs.all: "All",
-      AppTabs.completed: "Completed",
-      AppTabs.incomplete: "Incomplete",
+      AppTabs.all: S.of(context).allLabel,
+      AppTabs.completed: S.of(context).completedLabel,
+      AppTabs.incomplete: S.of(context).incompleteLabel,
     };
 
     return BlocBuilder<TabsBloc, TabsState>(
@@ -187,7 +184,7 @@ class _NavigationScreenState extends State<NavigationScreen> {
     if (currentBackPressTime == null ||
         now.difference(currentBackPressTime) > const Duration(seconds: 2)) {
       currentBackPressTime = now;
-      await Fluttertoast.showToast(msg: "Back again to leave");
+      await Fluttertoast.showToast(msg: S.of(context).backAgainToLeaveMessage);
       return Future.value(false);
     }
     return Future.value(true);

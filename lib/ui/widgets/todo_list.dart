@@ -5,8 +5,9 @@ import 'package:flutter_todo/blocs/todo/todo_bloc.dart';
 import 'package:flutter_todo/blocs/todo/todo_event.dart';
 import 'package:flutter_todo/models/models.dart';
 import 'package:flutter_todo/sevices/services.dart';
+import 'package:flutter_todo/ui/common/show_date_time_picker.dart';
 import 'package:flutter_todo/ui/screens/screens.dart';
-import 'package:flutter_todo/utils/themes.dart';
+import 'package:flutter_todo/utils/themes/themes.dart';
 
 import 'todo_item.dart';
 
@@ -52,21 +53,16 @@ class _ListTodoState extends State<ListTodo> {
                 },
                 onDatePressed: () {
                   var todo = widget.listTodo[index];
-                  DatePicker.showDateTimePicker(
+                  showDateTimePicker(
                     context,
-                    showTitleActions: true,
-                    minTime: DateTime(2018, 3, 5),
-                    maxTime: DateTime.now().add(const Duration(days: 365)),
-                    theme: Themes.getDateThemPickerTheme(context),
-                    onChanged: (date) {},
+                    current: todo.expired != null && todo.expired > 0
+                        ? DateTime.fromMillisecondsSinceEpoch(todo.expired)
+                        : DateTime.now(),
                     onConfirm: (pick) {
                       todo.expired = pick.millisecondsSinceEpoch;
                       BlocProvider.of<TodoBloc>(context)
                           .add(TodoUpdateEvent(todo));
                     },
-                    currentTime: todo.expired != null && todo.expired > 0
-                        ? DateTime.fromMillisecondsSinceEpoch(todo.expired)
-                        : DateTime.now(),
                   );
                 },
               );

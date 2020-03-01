@@ -1,0 +1,19 @@
+{
+  "appName": "To Do",
+  "allLabel": "All",
+  "addLabel": "Add",
+  "addTimeLabel": "Add time",
+  "backAgainToLeaveMessage": "Back again to leave",
+  "completedLabel": "Completed",
+  "darkModeTitle": "Dark mode",
+  "descriptionHintText": "Description",
+  "incompleteLabel": "Incomplete",
+  "languageTitle": "Language",
+  "myTasksTitle": "My Tasks",
+  "oneDeletedMessage": "{number} deleted",
+  "oneCompletedMessage": "{number} completed",
+  "oneMarkedIncompleteMessage": "{number} marked incomplete",
+  "saveLabelButton": "Save",
+  "titleHintText": "Title",
+  "undoLabelButton": "Undo"
+}

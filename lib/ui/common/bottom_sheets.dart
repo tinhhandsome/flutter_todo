@@ -3,9 +3,11 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
 import 'package:flutter_todo/blocs/todo/todo_bloc.dart';
 import 'package:flutter_todo/blocs/todo/todo_state.dart';
+import 'package:flutter_todo/generated/l10n.dart';
 import 'package:flutter_todo/models/models.dart';
+import 'package:flutter_todo/ui/common/show_date_time_picker.dart';
 import 'package:flutter_todo/utils/formatter.dart';
-import 'package:flutter_todo/utils/themes.dart';
+import 'package:flutter_todo/utils/themes/themes.dart';
 import 'package:rxdart/rxdart.dart';
 
 void showAddTodoBottomSheet(BuildContext context, Function(Todo) onAdded) {
@@ -37,7 +39,8 @@ void showAddTodoBottomSheet(BuildContext context, Function(Todo) onAdded) {
                           height: 8.0,
                         ),
                         TextField(
-                          decoration: const InputDecoration(hintText: 'Title'),
+                          decoration: InputDecoration(
+                              hintText: S.of(context).titleHintText),
                           autofocus: true,
                           keyboardType: TextInputType.multiline,
                           maxLines: null,
@@ -47,8 +50,8 @@ void showAddTodoBottomSheet(BuildContext context, Function(Todo) onAdded) {
                           },
                         ),
                         TextField(
-                          decoration:
-                              const InputDecoration(hintText: 'Description'),
+                          decoration: InputDecoration(
+                              hintText: S.of(context).descriptionHintText),
                           autofocus: true,
                           keyboardType: TextInputType.multiline,
                           maxLines: null,
@@ -64,22 +67,15 @@ void showAddTodoBottomSheet(BuildContext context, Function(Todo) onAdded) {
                               child: FlatButton(
                                 padding: EdgeInsets.zero,
                                 onPressed: () {
-                                  DatePicker.showDateTimePicker(
+                                  showDateTimePicker(
                                     context,
-                                    showTitleActions: true,
-                                    theme:
-                                        Themes.getDateThemPickerTheme(context),
-                                    minTime: DateTime(2018, 3, 5),
-                                    maxTime: DateTime.now()
-                                        .add(const Duration(days: 365)),
-                                    onChanged: (date) {},
+                                    current: date,
                                     onConfirm: (pick) {
                                       date = pick;
                                       todo.expired =
                                           pick.millisecondsSinceEpoch;
                                       _todoSubject.add(todo);
                                     },
-                                    currentTime: date,
                                   );
                                 },
                                 child: Row(
@@ -89,7 +85,9 @@ void showAddTodoBottomSheet(BuildContext context, Function(Todo) onAdded) {
                                     const SizedBox(
                                       width: 5,
                                     ),
-                                    Text(time.isNotEmpty ? time : "Add time")
+                                    Text(time.isNotEmpty
+                                        ? time
+                                        : S.of(context).addTimeLabel)
                                   ],
                                 ),
                               ),
@@ -99,7 +97,7 @@ void showAddTodoBottomSheet(BuildContext context, Function(Todo) onAdded) {
                                   onAdded(todo);
                                 },
                                 child: Text(
-                                  "Add",
+                                  S.of(context).addLabel,
                                   style: TextStyle(
                                       color: Theme.of(context).primaryColor),
                                 ))

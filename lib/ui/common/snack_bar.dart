@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_todo/generated/l10n.dart';
 
 void showUndoSnackBar(BuildContext context,
     {String label, VoidCallback onUndo}) {
@@ -9,7 +10,7 @@ void showUndoSnackBar(BuildContext context,
     content: Text(label),
     duration: const Duration(seconds: 2),
     action: SnackBarAction(
-      label: 'Undo',
+      label: S.of(context).undoLabelButton,
       onPressed: onUndo,
     ),
   );

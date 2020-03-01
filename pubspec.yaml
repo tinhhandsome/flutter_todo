@@ -69,3 +69,5 @@ flutter_icons:
 
 flutter:
   uses-material-design: true
+flutter_intl:
+  enabled: true
