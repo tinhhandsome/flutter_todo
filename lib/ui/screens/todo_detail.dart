@@ -7,6 +7,7 @@ import 'package:flutter_todo/blocs/todo/todo_event.dart';
 import 'package:flutter_todo/blocs/todo/todo_state.dart';
 import 'package:flutter_todo/models/todo.dart';
 import 'package:flutter_todo/utils/formatter.dart';
+import 'package:flutter_todo/utils/themes.dart';
 import 'package:rxdart/rxdart.dart';
 
 class TodoDetailScreen extends StatefulWidget {
@@ -130,6 +131,8 @@ class _TodoDetailScreenState extends State<TodoDetailScreen> {
                                           context,
                                           showTitleActions: true,
                                           minTime: DateTime(2018, 3, 5),
+                                          theme: Themes.getDateThemPickerTheme(
+                                              context),
                                           maxTime: DateTime.now()
                                               .add(const Duration(days: 365)),
                                           onChanged: (date) {},

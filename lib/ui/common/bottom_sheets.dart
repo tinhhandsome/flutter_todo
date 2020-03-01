@@ -5,6 +5,7 @@ import 'package:flutter_todo/blocs/todo/todo_bloc.dart';
 import 'package:flutter_todo/blocs/todo/todo_state.dart';
 import 'package:flutter_todo/models/models.dart';
 import 'package:flutter_todo/utils/formatter.dart';
+import 'package:flutter_todo/utils/themes.dart';
 import 'package:rxdart/rxdart.dart';
 
 void showAddTodoBottomSheet(BuildContext context, Function(Todo) onAdded) {
@@ -62,6 +63,8 @@ void showAddTodoBottomSheet(BuildContext context, Function(Todo) onAdded) {
                                   DatePicker.showDateTimePicker(
                                     context,
                                     showTitleActions: true,
+                                    theme:
+                                        Themes.getDateThemPickerTheme(context),
                                     minTime: DateTime(2018, 3, 5),
                                     maxTime: DateTime.now()
                                         .add(const Duration(days: 365)),

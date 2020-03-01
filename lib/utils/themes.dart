@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
 import 'dark.dart';
 import 'light.dart';
 
@@ -33,5 +34,16 @@ class Themes {
         );
     }
     return themeData;
+  }
+
+  static DatePickerTheme getDateThemPickerTheme(BuildContext context) {
+    return DatePickerTheme(
+        backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+        doneStyle: Theme.of(context)
+            .textTheme
+            .caption
+            .copyWith(color: Theme.of(context).primaryColor),
+        cancelStyle: Theme.of(context).textTheme.caption,
+        itemStyle: Theme.of(context).textTheme.caption);
   }
 }

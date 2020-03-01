@@ -7,6 +7,7 @@ import 'package:flutter_todo/models/models.dart';
 import 'package:flutter_todo/sevices/services.dart';
 import 'package:flutter_todo/ui/common/snack_bar.dart';
 import 'package:flutter_todo/ui/screens/screens.dart';
+import 'package:flutter_todo/utils/themes.dart';
 
 import 'todo_item.dart';
 
@@ -57,6 +58,7 @@ class _ListTodoState extends State<ListTodo> {
                     showTitleActions: true,
                     minTime: DateTime(2018, 3, 5),
                     maxTime: DateTime.now().add(const Duration(days: 365)),
+                    theme: Themes.getDateThemPickerTheme(context),
                     onChanged: (date) {},
                     onConfirm: (pick) {
                       todo.expired = pick.millisecondsSinceEpoch;
