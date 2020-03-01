@@ -41,9 +41,9 @@ class Themes {
         backgroundColor: Theme.of(context).scaffoldBackgroundColor,
         doneStyle: Theme.of(context)
             .textTheme
-            .caption
+            .title
             .copyWith(color: Theme.of(context).primaryColor),
-        cancelStyle: Theme.of(context).textTheme.caption,
-        itemStyle: Theme.of(context).textTheme.caption);
+        cancelStyle: Theme.of(context).textTheme.title,
+        itemStyle: Theme.of(context).textTheme.title);
   }
 }
