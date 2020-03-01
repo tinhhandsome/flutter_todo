@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
 import 'package:flutter_sticky_header/flutter_sticky_header.dart';
 import 'package:flutter_todo/blocs/todo/todo_bloc.dart';
 import 'package:flutter_todo/blocs/todo/todo_event.dart';
@@ -10,7 +9,6 @@ import 'package:flutter_todo/sevices/services.dart';
 import 'package:flutter_todo/ui/common/show_date_time_picker.dart';
 import 'package:flutter_todo/ui/screens/screens.dart';
 import 'package:flutter_todo/ui/widgets/widgets.dart';
-import 'package:flutter_todo/utils/themes/themes.dart';
 
 class TodoCustomList extends StatefulWidget {
   final List<Todo> listCompletedTodo;

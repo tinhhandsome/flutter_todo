@@ -1,7 +1,6 @@
 import 'package:circular_check_box/circular_check_box.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
 import 'package:flutter_todo/blocs/todo/todo_bloc.dart';
 import 'package:flutter_todo/blocs/todo/todo_event.dart';
 import 'package:flutter_todo/blocs/todo/todo_state.dart';
@@ -9,7 +8,6 @@ import 'package:flutter_todo/generated/l10n.dart';
 import 'package:flutter_todo/models/todo.dart';
 import 'package:flutter_todo/ui/common/show_date_time_picker.dart';
 import 'package:flutter_todo/utils/formatter.dart';
-import 'package:flutter_todo/utils/themes/themes.dart';
 import 'package:rxdart/rxdart.dart';
 
 class TodoDetailScreen extends StatefulWidget {
