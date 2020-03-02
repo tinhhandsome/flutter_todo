@@ -26,5 +26,17 @@ void main() {
         const TabsSelectedTabState(AppTabs.completed),
       ],
     );
+    blocTest<TabsBloc, TabsEvent, TabsState>(
+      'emits [TabsSelectedTabState(AppTab.incomplete)]'
+      'when successful',
+      build: () async {
+        return tabsBloc;
+      },
+      act: (bloc) async =>
+          tabsBloc.add(const TabsSelectTabEvent(AppTabs.incomplete)),
+      expect: [
+        const TabsSelectedTabState(AppTabs.incomplete),
+      ],
+    );
   });
 }

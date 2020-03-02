@@ -23,7 +23,7 @@ class MessageLookup extends MessageLookupByLibrary {
 
   static m1(number) => "Đã xóa ${number} mục";
 
-  static m2(number) => "Đã đanh dấu chưa hoàn thành ${number} mục";
+  static m2(number) => "Đã đánh dấu chưa hoàn thành ${number} mục";
 
   final messages = _notInlinedMessages(_notInlinedMessages);
   static _notInlinedMessages(_) => <String, Function> {

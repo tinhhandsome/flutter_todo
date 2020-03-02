@@ -12,7 +12,7 @@
   "myTasksTitle": "Nhiệm vụ của tôi",
   "oneDeletedMessage": "Đã xóa {number} mục",
   "oneCompletedMessage": "Đã hoàn thành {number} mục",
-  "oneMarkedIncompleteMessage": "Đã đanh dấu chưa hoàn thành {number} mục",
+  "oneMarkedIncompleteMessage": "Đã đánh dấu chưa hoàn thành {number} mục",
   "saveLabelButton": "Lưu",
   "titleHintText": "Tiêu đề",
   "undoLabelButton": "Hủy"
