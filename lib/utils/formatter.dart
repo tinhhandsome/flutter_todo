@@ -2,7 +2,8 @@ import 'package:intl/intl.dart';
 import 'package:timeago/timeago.dart' as time_ago;
 
 class Formatter {
-  static String formatDateFrom(int millisecondsSinceEpoch) {
+  static String formatDateFrom(int millisecondsSinceEpoch,
+      {String locale = "en"}) {
     if (millisecondsSinceEpoch == null) {
       return "";
     }
@@ -11,7 +12,7 @@ class Formatter {
     try {
       var date = DateTime.fromMillisecondsSinceEpoch(millisecondsSinceEpoch);
       if (millisecondsSinceEpoch < DateTime.now().millisecondsSinceEpoch) {
-        time = time_ago.format(date);
+        time = time_ago.format(date, locale: locale);
       } else {
         time = formatDateNotAgoFrom(millisecondsSinceEpoch);
       }

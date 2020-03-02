@@ -19,7 +19,8 @@ class TodoItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    String time = Formatter.formatDateFrom(todo.expired);
+    String time = Formatter.formatDateFrom(todo.expired,
+        locale: Localizations.localeOf(context).languageCode);
     return Column(
       mainAxisSize: MainAxisSize.min,
       children: <Widget>[
