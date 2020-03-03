@@ -3,11 +3,15 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_todo/blocs/blocs.dart';
 import 'package:flutter_todo/generated/l10n.dart';
 import 'package:flutter_todo/models/models.dart';
+import 'package:flutter_todo/sevices/services.dart';
 import 'package:flutter_todo/ui/common/bottom_sheets.dart';
+import 'package:flutter_todo/ui/common/show_date_time_picker.dart';
 import 'package:flutter_todo/ui/common/snack_bar.dart';
 import 'package:flutter_todo/ui/widgets/widgets.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+
+import 'screens.dart';
 
 class NavigationScreen extends StatefulWidget {
   static const routeName = "/";
@@ -70,7 +74,6 @@ class _NavigationScreenState extends State<NavigationScreen> {
           child: NestedScrollView(
             headerSliverBuilder:
                 (BuildContext context, bool innerBoxIsScrolled) {
-              // These are the slivers that show up in the "outer" scroll view.
               return <Widget>[
                 SliverOverlapAbsorber(
                   handle:
@@ -112,18 +115,25 @@ class _NavigationScreenState extends State<NavigationScreen> {
       Widget child;
       if (key == AppTabs.all) {
         child = TodoCustomList(
-          onRefresh: onRefresh,
           listCompletedTodo: mapTodo[AppTabs.completed],
           listIncompleteTodo: mapTodo[AppTabs.incomplete],
+          onDatePressed: onDatePressed,
+          onPressed: onPressed,
+          onChanged: onChanged,
         );
       } else {
         child = ListTodo(
           controller: _controller,
           listTodo: mapTodo[key],
-          onRefresh: onRefresh,
+          onDatePressed: onDatePressed,
+          onPressed: onPressed,
+          onChanged: onChanged,
         );
       }
-      return RefreshIndicator(child: child, onRefresh: onRefresh);
+      return RefreshIndicator(
+        child: child,
+        onRefresh: onRefresh,
+      );
     }).toList();
   }
 
@@ -148,8 +158,7 @@ class _NavigationScreenState extends State<NavigationScreen> {
               items: [
                 BottomNavigationBarItem(
                   icon: Icon(
-                    FontAwesomeIcons.tasks,
-                    size: 20,
+                    Icons.format_list_bulleted,
                   ),
                   title: Text(displayName[AppTabs.all]),
                 ),
@@ -176,6 +185,32 @@ class _NavigationScreenState extends State<NavigationScreen> {
         Icons.add,
         color: Colors.white,
       ),
+    );
+  }
+
+  void onChanged(Todo todo) {
+    if (todo.done) {
+      BlocProvider.of<TodoBloc>(context).add(TodoCompleteEvent(todo));
+    } else {
+      BlocProvider.of<TodoBloc>(context).add(TodoMarkIncompleteEvent(todo));
+    }
+  }
+
+  void onPressed(Todo todo) {
+    locator<NavigationService>()
+        .push(TodoDetailScreen.routeName, arguments: todo);
+  }
+
+  void onDatePressed(Todo todo) {
+    showDateTimePicker(
+      context,
+      current: todo.expired != null && todo.expired > 0
+          ? DateTime.fromMillisecondsSinceEpoch(todo.expired)
+          : DateTime.now(),
+      onConfirm: (pick) {
+        todo.expired = pick.millisecondsSinceEpoch;
+        BlocProvider.of<TodoBloc>(context).add(TodoUpdateEvent(todo));
+      },
     );
   }
 

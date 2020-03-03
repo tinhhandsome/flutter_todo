@@ -1,34 +1,27 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_sticky_header/flutter_sticky_header.dart';
-import 'package:flutter_todo/blocs/todo/todo_bloc.dart';
-import 'package:flutter_todo/blocs/todo/todo_event.dart';
 import 'package:flutter_todo/generated/l10n.dart';
 import 'package:flutter_todo/models/models.dart';
-import 'package:flutter_todo/sevices/services.dart';
-import 'package:flutter_todo/ui/common/show_date_time_picker.dart';
-import 'package:flutter_todo/ui/screens/screens.dart';
 import 'package:flutter_todo/ui/widgets/widgets.dart';
 
-class TodoCustomList extends StatefulWidget {
+class TodoCustomList extends StatelessWidget {
   final List<Todo> listCompletedTodo;
   final List<Todo> listIncompleteTodo;
-  final RefreshCallback onRefresh;
   final ScrollController controller;
+  final Function(Todo todo) onPressed;
+  final Function(Todo todo) onChanged;
+  final Function(Todo todo) onDatePressed;
 
   const TodoCustomList({
-    @required this.onRefresh,
     Key key,
     this.listCompletedTodo,
     this.listIncompleteTodo,
     this.controller,
+    this.onPressed,
+    this.onChanged,
+    this.onDatePressed,
   }) : super(key: key);
 
-  @override
-  _TodoCustomListState createState() => _TodoCustomListState();
-}
-
-class _TodoCustomListState extends State<TodoCustomList> {
   @override
   Widget build(BuildContext context) {
     return CustomScrollView(
@@ -36,39 +29,39 @@ class _TodoCustomListState extends State<TodoCustomList> {
         SliverOverlapInjector(
           handle: NestedScrollView.sliverOverlapAbsorberHandleFor(context),
         ),
-        buildSliverList(widget.listIncompleteTodo),
+        buildSliverList(listIncompleteTodo),
         SliverStickyHeaderBuilder(
-          builder: (context, state) => widget.listCompletedTodo == null ||
-                  widget.listCompletedTodo.isEmpty
-              ? Container()
-              : Column(
-                  mainAxisSize: MainAxisSize.min,
-                  children: <Widget>[
-                    Container(
-                      height: 40.0 +
-                          (state.isPinned
-                              ? MediaQuery.of(context).padding.top
-                              : 0),
-                      color: Theme.of(context)
-                          .scaffoldBackgroundColor
-                          .withOpacity(1.0 - state.scrollPercentage),
-                      padding: EdgeInsets.only(
-                          top: state.isPinned
-                              ? MediaQuery.of(context).padding.top
-                              : 0,
-                          left: 15),
-                      alignment: Alignment.centerLeft,
-                      child: Text(
-                        S.of(context).completedLabel,
-                        style: TextStyle(color: Colors.green),
-                      ),
+          builder: (context, state) =>
+              listCompletedTodo == null || listCompletedTodo.isEmpty
+                  ? Container()
+                  : Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: <Widget>[
+                        Container(
+                          height: 40.0 +
+                              (state.isPinned
+                                  ? MediaQuery.of(context).padding.top
+                                  : 0),
+                          color: Theme.of(context)
+                              .scaffoldBackgroundColor
+                              .withOpacity(1.0 - state.scrollPercentage),
+                          padding: EdgeInsets.only(
+                              top: state.isPinned
+                                  ? MediaQuery.of(context).padding.top
+                                  : 0,
+                              left: 15),
+                          alignment: Alignment.centerLeft,
+                          child: Text(
+                            S.of(context).completedLabel,
+                            style: TextStyle(color: Colors.green),
+                          ),
+                        ),
+                        const Divider(
+                          height: 1,
+                        ),
+                      ],
                     ),
-                    const Divider(
-                      height: 1,
-                    ),
-                  ],
-                ),
-          sliver: buildSliverList(widget.listCompletedTodo),
+          sliver: buildSliverList(listCompletedTodo),
         ),
       ],
     );
@@ -79,30 +72,12 @@ class _TodoCustomListState extends State<TodoCustomList> {
       delegate: SliverChildBuilderDelegate(
         (context, index) => TodoItem(
           todo: todos[index],
-          onChanged: (todo) {
-            if (todo.done) {
-              BlocProvider.of<TodoBloc>(context).add(TodoCompleteEvent(todo));
-            } else {
-              BlocProvider.of<TodoBloc>(context)
-                  .add(TodoMarkIncompleteEvent(todo));
-            }
-          },
+          onChanged: onChanged,
           onPressed: () {
-            locator<NavigationService>()
-                .push(TodoDetailScreen.routeName, arguments: todos[index]);
+            onPressed(todos[index]);
           },
           onDatePressed: () {
-            showDateTimePicker(
-              context,
-              current: todos[index].expired != null && todos[index].expired > 0
-                  ? DateTime.fromMillisecondsSinceEpoch(todos[index].expired)
-                  : DateTime.now(),
-              onConfirm: (pick) {
-                todos[index].expired = pick.millisecondsSinceEpoch;
-                BlocProvider.of<TodoBloc>(context)
-                    .add(TodoUpdateEvent(todos[index]));
-              },
-            );
+            onDatePressed(todos[index]);
           },
         ),
         childCount: todos == null ? 0 : todos.length,
