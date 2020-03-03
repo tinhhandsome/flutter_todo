@@ -9,7 +9,6 @@ import 'package:flutter_todo/ui/common/show_date_time_picker.dart';
 import 'package:flutter_todo/ui/common/snack_bar.dart';
 import 'package:flutter_todo/ui/widgets/widgets.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 import 'screens.dart';
 
@@ -24,7 +23,7 @@ class _NavigationScreenState extends State<NavigationScreen> {
   final TabsBloc _tabsBloc = TabsBloc();
   final PageController _pageController = PageController();
   DateTime currentBackPressTime;
-  final ScrollController _controller = ScrollController();
+
   @override
   void initState() {
     super.initState();
@@ -123,7 +122,6 @@ class _NavigationScreenState extends State<NavigationScreen> {
         );
       } else {
         child = ListTodo(
-          controller: _controller,
           listTodo: mapTodo[key],
           onDatePressed: onDatePressed,
           onPressed: onPressed,

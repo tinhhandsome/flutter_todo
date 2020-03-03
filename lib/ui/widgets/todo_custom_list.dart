@@ -7,7 +7,6 @@ import 'package:flutter_todo/ui/widgets/widgets.dart';
 class TodoCustomList extends StatelessWidget {
   final List<Todo> listCompletedTodo;
   final List<Todo> listIncompleteTodo;
-  final ScrollController controller;
   final Function(Todo todo) onPressed;
   final Function(Todo todo) onChanged;
   final Function(Todo todo) onDatePressed;
@@ -16,7 +15,6 @@ class TodoCustomList extends StatelessWidget {
     Key key,
     this.listCompletedTodo,
     this.listIncompleteTodo,
-    this.controller,
     this.onPressed,
     this.onChanged,
     this.onDatePressed,

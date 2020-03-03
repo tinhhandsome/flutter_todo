@@ -5,7 +5,6 @@ import 'todo_item.dart';
 
 class ListTodo extends StatelessWidget {
   final List<Todo> listTodo;
-  final ScrollController controller;
   final Function(Todo todo) onPressed;
   final Function(Todo todo) onChanged;
   final Function(Todo todo) onDatePressed;
@@ -13,7 +12,6 @@ class ListTodo extends StatelessWidget {
   const ListTodo(
       {Key key,
       this.listTodo,
-      this.controller,
       this.onPressed,
       this.onChanged,
       this.onDatePressed})
