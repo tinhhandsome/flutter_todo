@@ -9,6 +9,7 @@ Todo Application
 - Show all, completed, incompleted todos
 - Check done
 - Dark mode
+- Multitple languages
 
 ## Unit test & analyze
 
