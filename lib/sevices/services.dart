@@ -1,3 +1,3 @@
 export 'locator.dart';
-export 'naivigation.dart';
+export 'navigation.dart';
 export 'storage.dart';
