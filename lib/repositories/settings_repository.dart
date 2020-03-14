@@ -1,8 +1,8 @@
 import 'dart:convert';
 
 import 'package:flutter_todo/models/settings.dart';
-import 'package:flutter_todo/sevices/locator.dart';
-import 'package:flutter_todo/sevices/services.dart';
+import 'package:flutter_todo/services/locator.dart';
+import 'package:flutter_todo/services/services.dart';
 
 class SettingsRepository {
   const SettingsRepository();

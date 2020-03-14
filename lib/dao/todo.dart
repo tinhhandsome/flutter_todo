@@ -2,7 +2,7 @@ import "dart:async";
 
 import 'package:flutter_todo/database/database.dart';
 import 'package:flutter_todo/models/models.dart';
-import 'package:flutter_todo/sevices/services.dart';
+import 'package:flutter_todo/services/services.dart';
 
 const String invalidArgumentsException = "Invalid arguments";
 const String titleIsEmptyException = "Title is empty";

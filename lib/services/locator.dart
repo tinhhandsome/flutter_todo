@@ -1,5 +1,5 @@
 import 'package:flutter_todo/database/database.dart';
-import 'package:flutter_todo/sevices/services.dart';
+import 'package:flutter_todo/services/services.dart';
 import 'package:get_it/get_it.dart';
 import 'package:timeago/timeago.dart' as time_ago;
 
